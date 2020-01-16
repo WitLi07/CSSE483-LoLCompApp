@@ -1,5 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
 
+    <TextView
+        android:id="@+id/title_text_view"
+        style="@style/textview_style"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="40dp"
+        android:text="Change Info"
+        android:textSize="35sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/in_game_username_text_view"
+        style="@style/textview_style"
+        android:layout_below="@id/title_text_view"
+        android:text="In game username"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/in_game_username_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/in_game_username_text_view"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/lane_text_view"
+        style="@style/textview_style"
+        android:layout_below="@id/in_game_username_edit_text"
+        android:text="Lane"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/lane_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lane_text_view" />
+
+    <TextView
+        android:id="@+id/preferred_champion_text_view"
+        style="@style/textview_style"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lane_edit_text"
+        android:layout_marginTop="40dp"
+        android:text="Preferred Champion"
+        android:textSize="30dp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/preferred_champion_text_view"
+        android:layout_toRightOf="@id/preferred_champion_text_view">
+
+        <ImageView
+            android:id="@+id/champion_image_view_1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/question_mark_icon" />
+
+        <ImageView
+            android:id="@+id/champion_image_view_2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_toRightOf="@id/champion_image_view_1"
+            android:src="@drawable/question_mark_icon" />
+
+        <ImageView
+            android:id="@+id/champion_image_view_3"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/champion_image_view_1"
+            android:src="@drawable/question_mark_icon" />
+
+        <ImageView
+            android:id="@+id/champion_image_view_4"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/champion_image_view_2"
+            android:layout_toRightOf="@id/champion_image_view_3"
+            android:src="@drawable/question_mark_icon" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="20dp"
+        android:layout_toLeftOf="@id/button2"
+        android:background="@color/buttonBackgroundColor"
+        android:text="CANCEL"
+        android:textColor="@color/buttonTextColor" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/buttonBackgroundColor"
+        android:text="SUBMIT"
+        android:textColor="@color/buttonTextColor" />
 </RelativeLayout>
