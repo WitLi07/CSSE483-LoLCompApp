@@ -20,6 +20,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/login_page" />
+    <include
+        layout="@layout/info_page" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
