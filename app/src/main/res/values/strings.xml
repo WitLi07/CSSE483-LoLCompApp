@@ -16,4 +16,8 @@
     <string name="preferred_champion">Preferred Champion</string>
     <string name="cancel">CANCEL</string>
     <string name="submit">SUBMIT</string>
+    <string name="comp_page_title">Comp Page</string>
+    <string name="add_a_comp">Add a comp</string>
+    <string name="comp_name">Comp Name:</string>
+    <string name="comp_page_comp_name">Comp Name</string>
 </resources>

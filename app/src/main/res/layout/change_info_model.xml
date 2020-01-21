@@ -86,24 +86,24 @@
 
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="20dp"
-        android:layout_toLeftOf="@id/button2"
-        android:background="@color/buttonBackgroundColor"
-        android:text="@string/cancel"
-        android:textColor="@color/buttonTextColor" />
+<!--    <Button-->
+<!--        android:id="@+id/button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:layout_toLeftOf="@id/button2"-->
+<!--        android:background="@color/buttonBackgroundColor"-->
+<!--        android:text="@string/cancel"-->
+<!--        android:textColor="@color/buttonTextColor" />-->
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:background="@color/buttonBackgroundColor"
-        android:text="@string/submit"
-        android:textColor="@color/buttonTextColor" />
+<!--    <Button-->
+<!--        android:id="@+id/button2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:background="@color/buttonBackgroundColor"-->
+<!--        android:text="@string/submit"-->
+<!--        android:textColor="@color/buttonTextColor" />-->
 </RelativeLayout>

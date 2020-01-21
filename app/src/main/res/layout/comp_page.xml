@@ -1,5 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/comp_page">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/comp_page_title"
+        android:text="@string/comp_page_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/comp_linear"
+        android:orientation="horizontal"
+        android:layout_below="@+id/comp_page_title"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            style="@style/textview_style"
+            android:text="Comp-Name"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            style="@style/textview_style"
+            android:text="Top"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            style="@style/textview_style"
+            android:text="Mid"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            style="@style/textview_style"
+            android:text="Sup"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            style="@style/textview_style"
+            android:text="Ad"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            style="@style/textview_style"
+            android:text="Jungle"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/comp_recycler"
+        android:layout_below="@+id/comp_linear"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_comp_btn"
+        android:text="Add Comp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"/>
 
 </RelativeLayout>
