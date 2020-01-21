@@ -9,7 +9,7 @@
         style="@style/textview_style"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="40dp"
-        android:text="Change Info"
+        android:text="@string/change_info"
         android:textSize="35sp"
         android:textStyle="bold" />
 
@@ -17,7 +17,7 @@
         android:id="@+id/in_game_username_text_view"
         style="@style/textview_style"
         android:layout_below="@id/title_text_view"
-        android:text="In game username"
+        android:text="@string/in_game_username"
         android:textSize="30sp" />
 
     <EditText
@@ -31,7 +31,7 @@
         android:id="@+id/lane_text_view"
         style="@style/textview_style"
         android:layout_below="@id/in_game_username_edit_text"
-        android:text="Lane"
+        android:text="@string/lane"
         android:textSize="30sp" />
 
     <EditText
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/lane_edit_text"
         android:layout_marginTop="40dp"
-        android:text="Preferred Champion"
+        android:text="@string/preferred_champion"
         android:textSize="30dp" />
 
     <RelativeLayout
@@ -94,7 +94,7 @@
         android:layout_marginRight="20dp"
         android:layout_toLeftOf="@id/button2"
         android:background="@color/buttonBackgroundColor"
-        android:text="CANCEL"
+        android:text="@string/cancel"
         android:textColor="@color/buttonTextColor" />
 
     <Button
@@ -104,6 +104,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:background="@color/buttonBackgroundColor"
-        android:text="SUBMIT"
+        android:text="@string/submit"
         android:textColor="@color/buttonTextColor" />
 </RelativeLayout>

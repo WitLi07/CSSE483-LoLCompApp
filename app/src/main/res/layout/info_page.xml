@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="My Info Page"
+        android:text="@string/my_info_page"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -24,7 +24,7 @@
         style="@style/textview_style"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="80dp"
-        android:text="Username: " />
+        android:text="@string/username" />
 
     <TextView
         android:id="@+id/gamename"
@@ -32,7 +32,7 @@
         android:layout_below="@+id/username"
         android:layout_alignLeft="@+id/username"
         android:layout_marginTop="20dp"
-        android:text="Game Name: " />
+        android:text="@string/game_name" />
 
     <TextView
         android:id="@+id/lane"
@@ -40,7 +40,7 @@
         android:layout_below="@+id/gamename"
         android:layout_alignLeft="@+id/username"
         android:layout_marginTop="20dp"
-        android:text="Lane: " />
+        android:text="@string/lane" />
 
     <TextView
         android:id="@+id/pref_champ"
@@ -49,7 +49,7 @@
         android:layout_below="@+id/lane"
         android:layout_alignLeft="@+id/username"
         android:layout_marginTop="20dp"
-        android:text="Prefered Champions: " />
+        android:text="@string/prefered_champions" />
 
     <TextView
         android:id="@+id/teams_textview"
@@ -57,28 +57,28 @@
         android:layout_below="@+id/pref_champ"
         android:layout_alignLeft="@+id/username"
         android:layout_marginTop="20dp"
-        android:text="Teams: " />
+        android:text="@string/teams" />
 
     <TextView
         android:id="@+id/username_value"
         style="@style/textview_style"
         android:layout_alignTop="@+id/username"
         android:layout_marginLeft="180dp"
-        android:text="koko" />
+        android:text="@string/koko" />
 
     <TextView
         android:id="@+id/gamename_value"
         style="@style/textview_style"
         android:layout_alignLeft="@+id/username_value"
         android:layout_alignTop="@+id/gamename"
-        android:text="koko6015" />
+        android:text="@string/koko6015" />
 
     <TextView
         android:id="@+id/lane_value"
         style="@style/textview_style"
         android:layout_alignLeft="@+id/username_value"
         android:layout_alignTop="@+id/lane"
-        android:text="Top" />
+        android:text="@string/top" />
 
     <ImageView
         android:id="@+id/cham1"
