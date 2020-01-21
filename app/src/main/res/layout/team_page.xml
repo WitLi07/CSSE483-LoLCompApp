@@ -4,27 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
+    android:paddingTop="0dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity"
-    android:padding="10dp">
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/info_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:text="@string/my_info_page"
+        android:text="Team Page"
         android:textSize="20sp"
         android:textStyle="bold" />
 
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/grid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/info_title"
-        android:layout_marginTop="21dp"
         android:columnCount="4"
-        android:padding="8dp"
         android:rowCount="6">
 
         <TextView
@@ -321,20 +320,20 @@
     </GridLayout>
 
     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
         android:padding="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="VIEW COMP."/>
+        android:text="VIEW COMP." />
 
     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
         android:padding="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ADD TEAMMATE"/>
+        android:text="ADD TEAMMATE" />
 </RelativeLayout>
