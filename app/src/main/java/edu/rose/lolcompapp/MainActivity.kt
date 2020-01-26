@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val ft = supportFragmentManager.beginTransaction()
-        val fragment = InfoPageFragment()
+        val fragment = InfoPageFragment(this)
         ft.replace(R.id.fragment_container, fragment)
         ft.commit()
     }

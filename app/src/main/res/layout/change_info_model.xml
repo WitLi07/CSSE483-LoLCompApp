@@ -58,28 +58,28 @@
 
         <ImageView
             android:id="@+id/champion_image_view_1"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/question_mark_icon" />
 
         <ImageView
             android:id="@+id/champion_image_view_2"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_toRightOf="@id/champion_image_view_1"
             android:src="@drawable/question_mark_icon" />
 
         <ImageView
             android:id="@+id/champion_image_view_3"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_below="@id/champion_image_view_1"
             android:src="@drawable/question_mark_icon" />
 
         <ImageView
             android:id="@+id/champion_image_view_4"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_below="@id/champion_image_view_2"
             android:layout_toRightOf="@id/champion_image_view_3"
             android:src="@drawable/question_mark_icon" />
