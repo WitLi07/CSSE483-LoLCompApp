@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
 
     <TextView
         android:id="@+id/add_comp_model_title"
         style="@style/textview_style"
-        android:layout_marginBottom="40dp"
         android:text="@string/add_a_comp"
+        android:layout_marginBottom="40dp"
         android:textSize="35sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"/>
+        android:textStyle="bold"/>
+
 
     <TextView
         android:id="@+id/add_comp_model_name"
         style="@style/textview_style"
-        android:layout_above="@id/add_comp_edit_text"
         android:text="@string/comp_name"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="80dp"/>
+        android:textStyle="bold" />
+
+
 
     <EditText
         android:id="@+id/add_comp_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:layout_centerInParent="true"/>
+        android:inputType="text" />
 
-</RelativeLayout>
+</LinearLayout>
