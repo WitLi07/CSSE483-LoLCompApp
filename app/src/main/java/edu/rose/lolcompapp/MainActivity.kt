@@ -1,12 +1,12 @@
 package edu.rose.lolcompapp
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_info_page.*
 
 class MainActivity : AppCompatActivity() {
 
