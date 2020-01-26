@@ -126,5 +126,25 @@
         android:layout_below="@+id/teams_textview"
         android:layout_marginTop="20dp" />
 
+    <Button
+        android:id="@+id/create_team_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:padding="15dp"
+        android:text="Create Team" />
+
+    <Button
+        android:id="@+id/edit_info_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:padding="15dp"
+        android:text="Edit Info" />
+
 
 </RelativeLayout>
