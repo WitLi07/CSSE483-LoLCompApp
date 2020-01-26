@@ -15,10 +15,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
+        val ft = supportFragmentManager.beginTransaction()
+        val fragment = InfoPageFragment()
+        ft.replace(R.id.fragment_container, fragment)
+        ft.commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
