@@ -21,6 +21,6 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <include
-        layout="@layout/team_page" />
+        layout="@layout/info_page" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
