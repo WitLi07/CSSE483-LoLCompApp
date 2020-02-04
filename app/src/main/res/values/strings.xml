@@ -20,4 +20,5 @@
     <string name="add_a_comp">Add a comp</string>
     <string name="comp_name">Comp Name:</string>
     <string name="comp_page_comp_name">Comp Name</string>
+    <string name="Login_Text">Login</string>
 </resources>
