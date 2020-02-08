@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.change_info_model.view.*
 import kotlinx.android.synthetic.main.fragment_info_page.view.*
 
@@ -27,6 +29,10 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
     val playerInfoRef = FirebaseFirestore
         .getInstance()
         .collection("users")
+
+    private val storageRef = FirebaseStorage.getInstance()
+        .reference
+        .child("champImages")
 
 
     companion object {
@@ -82,8 +88,19 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
             val gameName = (snapshot["gamename"] ?: "") as String
             val lane = (snapshot["lane"] ?: "") as String
+            val champs = (snapshot["preferedChampions"] ?: {}) as ArrayList<String>
             rootView!!.findViewById<TextView>(R.id.gamename_value).text = gameName
             rootView!!.findViewById<TextView>(R.id.lane_value).text = lane
+            for ((i,name) in champs.withIndex()) {
+                var imgId:String = "cham" + (i+1)
+                val img:ImageView = rootView!!.findViewById(resources.getIdentifier(imgId, "id", activity!!.packageName))
+//                Picasso.get().load(storageRef.child(name).downloadUrl.toString()).into(img)
+//                Picasso.get().load(storageRef.child("Jax.png").downloadUrl.result).into(img)
+                storageRef.child(name+".png").downloadUrl.addOnCompleteListener {
+                    val url = it.result
+                    Picasso.get().load(url).into(img)
+                }
+            }
         }
     }
 
@@ -152,6 +169,8 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
             rootView!!.findViewById<TextView>(R.id.gamename_value).text = gameName
             rootView!!.findViewById<TextView>(R.id.lane_value).text = lane
+
+            updateUI()
 
         }
 
