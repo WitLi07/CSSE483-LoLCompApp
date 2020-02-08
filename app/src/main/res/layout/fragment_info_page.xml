@@ -31,7 +31,7 @@
         android:layout_below="@+id/username"
         android:layout_alignLeft="@+id/username"
         android:layout_marginTop="20dp"
-        android:text="@string/game_name" />
+        android:text="@string/game_name"/>
 
     <TextView
         android:id="@+id/lane"
@@ -62,22 +62,19 @@
         android:id="@+id/username_value"
         style="@style/textview_style"
         android:layout_alignTop="@+id/username"
-        android:layout_marginLeft="180dp"
-        android:text="@string/koko" />
+        android:layout_marginLeft="180dp" />
 
     <TextView
         android:id="@+id/gamename_value"
         style="@style/textview_style"
         android:layout_alignLeft="@+id/username_value"
-        android:layout_alignTop="@+id/gamename"
-        android:text="@string/koko6015" />
+        android:layout_alignTop="@+id/gamename" />
 
     <TextView
         android:id="@+id/lane_value"
         style="@style/textview_style"
         android:layout_alignLeft="@+id/username_value"
-        android:layout_alignTop="@+id/lane"
-        android:text="@string/top" />
+        android:layout_alignTop="@+id/lane" />
 
     <ImageView
         android:id="@+id/cham1"

@@ -1,21 +1,53 @@
 package edu.rose.lolcompapp
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
+import android.widget.*
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_info_page.*
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.change_info_model.view.*
+import kotlinx.android.synthetic.main.fragment_info_page.view.*
 
-class InfoPageFragment(context: Context) : Fragment() {
+
+private const val ARG_UID = "UID"
+
+class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelectedListener {
+    private var uid: String? = null
+    private var rootView: View? = null
+
+
+    val playerInfoRef = FirebaseFirestore
+        .getInstance()
+        .collection("users")
+
+
+    companion object {
+        @JvmStatic
+        fun newInstance(
+            context: Context,
+            uid: String
+        ): InfoPageFragment {
+            return InfoPageFragment(context).apply {
+                arguments = Bundle().apply {
+                    putString(ARG_UID, uid)
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        arguments?.let {
+            uid = it.getString(ARG_UID)
+        }
 
     }
 
@@ -24,9 +56,10 @@ class InfoPageFragment(context: Context) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_info_page, container, false)
 
-        view.findViewById<Button>(R.id.create_team_btn).setOnClickListener {
+        rootView = inflater.inflate(R.layout.fragment_info_page, container, false)
+
+        rootView!!.findViewById<Button>(R.id.create_team_btn).setOnClickListener {
 
             val ft = activity?.supportFragmentManager?.beginTransaction()
             val fragment = TeamPageFragment()
@@ -35,37 +68,103 @@ class InfoPageFragment(context: Context) : Fragment() {
             ft?.commit()
         }
 
-        view.findViewById<Button>(R.id.edit_info_btn).setOnClickListener {
+        rootView!!.findViewById<Button>(R.id.edit_info_btn).setOnClickListener {
             showEditDialog()
         }
 
-
-        return view
+        updateUI()
+        return rootView
     }
 
+    fun updateUI() {
+        val playerInfoDocRef = playerInfoRef.document(uid!!)
+        playerInfoDocRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
+
+            val gameName = (snapshot["gamename"] ?: "") as String
+            val lane = (snapshot["lane"] ?: "") as String
+            rootView!!.findViewById<TextView>(R.id.gamename_value).text = gameName
+            rootView!!.findViewById<TextView>(R.id.lane_value).text = lane
+        }
+    }
+
+
     fun showEditDialog() {
-//        val titleRef = FirebaseFirestore
-//            .getInstance()
-//            .collection("settings")
-//            .document("settings")
+        val playerInfoDocRef = playerInfoRef.document(uid!!)
 
         val builder = AlertDialog.Builder(context!!)
 
-        val view = LayoutInflater.from(context!!).inflate(R.layout.change_info_model, null, false)
+        val view = LayoutInflater.from(context!!)
+            .inflate(R.layout.change_info_model, null, false)
         builder.setView(view)
 
-//        titleRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
-//            // prepopulate from firestore
-//            val author = (snapshot["title"] ?: "") as String
-//            view.edit_text.setText(author)
-//        }
+        playerInfoDocRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
 
-//        builder.setPositiveButton(android.R.string.ok) { _, _ ->
-//            val newTitle = view.edit_text.text.toString() // update local title
-////            titleRef.set(mapOf<String, String>(Pair("title", newTitle))) // update firestore
-//        }
+
+            val gameName = (snapshot["gamename"] ?: "") as String
+            val lane = (snapshot["lane"] ?: "") as String
+            val preferedChampion = (snapshot["preferedchampions"] ?: "") as String
+            val teams = (snapshot["teams"] ?: "") as String
+
+            Log.d(Constants.TAG, "uid : ${uid}")
+            Log.d(Constants.TAG, "gamename : ${gameName}")
+            Log.d(Constants.TAG, "lane : ${lane}")
+            Log.d(Constants.TAG, "champions : ${preferedChampion.toString()}")
+            Log.d(Constants.TAG, "teams : ${teams}")
+
+            view.in_game_username_edit_text.setText(gameName)
+            view.lane_edit_text.setText(lane)
+        }
+
+        val spinner1: Spinner = view.findViewById(R.id.champion_image_view_1)
+        spinner1.onItemSelectedListener = this
+        val spinner2: Spinner = view.findViewById(R.id.champion_image_view_2)
+        spinner1.onItemSelectedListener = this
+        val spinner3: Spinner = view.findViewById(R.id.champion_image_view_3)
+        spinner1.onItemSelectedListener = this
+        val spinner4: Spinner = view.findViewById(R.id.champion_image_view_4)
+        spinner1.onItemSelectedListener = this
+
+        ArrayAdapter.createFromResource(
+            context as Context,
+            R.array.champion_name,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner1.adapter = adapter
+            spinner2.adapter = adapter
+            spinner3.adapter = adapter
+            spinner4.adapter = adapter
+        }
+
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
+            val gameName = view.in_game_username_edit_text.text.toString()
+            val lane = view.lane_edit_text.text.toString()
+            val prefChamp1 = spinner1.selectedItem.toString()
+            val prefChamp2 = spinner2.selectedItem.toString()
+            val prefChamp3 = spinner3.selectedItem.toString()
+            val prefChamp4 = spinner4.selectedItem.toString()
+            val prefChampsArray = arrayListOf<String>(prefChamp1, prefChamp2, prefChamp3, prefChamp4)
+
+
+            playerInfoDocRef.set(User(uid!!, gameName, lane, prefChampsArray))
+
+            rootView!!.findViewById<TextView>(R.id.gamename_value).text = gameName
+            rootView!!.findViewById<TextView>(R.id.lane_value).text = lane
+
+        }
 
         builder.setNegativeButton(android.R.string.cancel, null)
         builder.create().show()
     }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+    }
+
 }

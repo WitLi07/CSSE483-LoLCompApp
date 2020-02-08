@@ -6,6 +6,8 @@ import android.view.Menu
 import android.view.MenuItem
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_info_page.*
@@ -23,10 +25,6 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
 
         initializeListeners()
 
-        val ft = supportFragmentManager.beginTransaction()
-        val fragment = InfoPageFragment(this)
-        ft.replace(R.id.fragment_container, fragment)
-        ft.commit()
     }
 
     override fun onStart() {
@@ -44,22 +42,30 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
             val user = auth.currentUser
 
             if (user != null) {
-                switchToInfoPage()
-//                Log.d(Constants.TAG, "UID : ${user.uid}")
-//                Log.d(Constants.TAG, "Name : ${user.displayName}")
-//                Log.d(Constants.TAG, "Email : ${user.email}")
-//                Log.d(Constants.TAG, "Phone : ${user.phoneNumber}")
-//                Log.d(Constants.TAG, "PhotoURL : ${user.photoUrl}")
+                val playerInfoRef = FirebaseFirestore
+                    .getInstance()
+                    .collection("users")
+
+                playerInfoRef
+                    .document(user.uid)
+                    .get()
+                    .addOnSuccessListener {
+                        if (!it.exists()) {
+                            playerInfoRef.document(user.uid).set(User(user.uid))
+                        }
+                    }
+
+                switchToInfoPage(user.uid)
             } else {
                 switchToLoginFragment()
             }
         }
     }
 
-    fun switchToInfoPage() {
+    fun switchToInfoPage(uid: String = "") {
         val fragment = InfoPageFragment(this)
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_container, fragment)
+        ft.replace(R.id.fragment_container, InfoPageFragment.newInstance(this, uid))
         ft.commit()
     }
 
@@ -101,7 +107,7 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
         )
 
         val loginIntent = AuthUI.getInstance()
-            .createSignInIntentBuilder()
+            .createSignInIntentBuilder().setIsSmartLockEnabled(false)
             .setAvailableProviders(providers)
             .build()
 

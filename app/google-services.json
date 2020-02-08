@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "989603661137",
+    "firebase_url": "https://csse483-lolcomp-finalproject.firebaseio.com",
+    "project_id": "csse483-lolcomp-finalproject",
+    "storage_bucket": "csse483-lolcomp-finalproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989603661137:android:b571205ecf96fcfd883f70",
+        "android_client_info": {
+          "package_name": "edu.rose.lolcompapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989603661137-bg8dlc7m7u5g83kr7jq784eh8uhbs2nu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.rose.lolcompapp",
+            "certificate_hash": "cd25371ce96be5015c35eaacaf801b166a3c5cd0"
+          }
+        },
+        {
+          "client_id": "989603661137-19euk55ksv4uugt0i9qqm1cd7pq8oqhv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB45Gj0cNNqs-wTcB7K6jarD9uriWJHBtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989603661137-19euk55ksv4uugt0i9qqm1cd7pq8oqhv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

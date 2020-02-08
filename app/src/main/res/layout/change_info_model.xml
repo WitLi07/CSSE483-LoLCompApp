@@ -46,43 +46,45 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/lane_edit_text"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="25dp"
         android:text="@string/preferred_champion"
         android:textSize="30dp" />
 
     <RelativeLayout
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/preferred_champion_text_view"
-        android:layout_toRightOf="@id/preferred_champion_text_view">
+        android:layout_below="@id/preferred_champion_text_view">
 
-        <ImageView
+        <Spinner
             android:id="@+id/champion_image_view_1"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:src="@drawable/question_mark_icon" />
+            android:entries="@array/champion_name" />
 
-        <ImageView
+        <Spinner
             android:id="@+id/champion_image_view_2"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_toRightOf="@id/champion_image_view_1"
-            android:src="@drawable/question_mark_icon" />
+            android:entries="@array/champion_name"
+             />
 
-        <ImageView
+        <Spinner
             android:id="@+id/champion_image_view_3"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_below="@id/champion_image_view_1"
-            android:src="@drawable/question_mark_icon" />
+            android:entries="@array/champion_name" />
 
-        <ImageView
+        <Spinner
             android:id="@+id/champion_image_view_4"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_below="@id/champion_image_view_2"
             android:layout_toRightOf="@id/champion_image_view_3"
-            android:src="@drawable/question_mark_icon" />
+            android:entries="@array/champion_name"
+             />
 
     </RelativeLayout>
 
