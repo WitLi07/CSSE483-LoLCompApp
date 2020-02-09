@@ -146,8 +146,8 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
             val gameName = (snapshot["gamename"] ?: "") as String
             val lane = (snapshot["lane"] ?: "") as String
-            val preferedChampion = (snapshot["preferedchampions"] ?: "") as String
-            val teams = (snapshot["teams"] ?: "") as String
+            val preferedChampion = (snapshot["preferedChampions"] ?: "") as ArrayList<String>
+            val teams = (snapshot["teams"] ?: "") as ArrayList<DocumentReference>
 
             Log.d(Constants.TAG, "uid : ${uid}")
             Log.d(Constants.TAG, "gamename : ${gameName}")
@@ -157,6 +157,13 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
             view.in_game_username_edit_text.setText(gameName)
             view.lane_edit_text.setText(lane)
+
+            var cham_arr = resources.getStringArray(R.array.champion_name)
+            view.champion_image_view_1.setSelection(cham_arr.indexOf(preferedChampion[0]))
+            view.champion_image_view_2.setSelection(cham_arr.indexOf(preferedChampion[1]))
+            view.champion_image_view_3.setSelection(cham_arr.indexOf(preferedChampion[2]))
+            view.champion_image_view_4.setSelection(cham_arr.indexOf(preferedChampion[3]))
+
         }
 
         val spinner1: Spinner = view.findViewById(R.id.champion_image_view_1)
@@ -176,10 +183,13 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
+
             spinner1.adapter = adapter
             spinner2.adapter = adapter
             spinner3.adapter = adapter
             spinner4.adapter = adapter
+
+
         }
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
