@@ -39,25 +39,12 @@ class TeamPageFragment(
     private val storageRef = FirebaseStorage.getInstance()
         .reference
         .child("champImages")
-    private lateinit var listenerRegistration: ListenerRegistration
-    fun addSnapshotListener() {
-        listenerRegistration = playerInfoRef
-            .addSnapshotListener { querySnapshot, e ->
-                if (e != null) {
-                    Log.w(Constants.TAG, "listen error", e)
-                } else {
-                    processSnapshotChanges(querySnapshot!!)
-                }
-            }
-    }
 
-    private fun processSnapshotChanges(querySnapshot: QuerySnapshot) {
-        updateUI()
-
-    }
 
     private fun updateUI() {
         for ((j, player) in team.withIndex()) {
+//            Log.d(TAG, "Running ${team}, $j")
+//            Log.d(TAG, "Running ${team[j]}")
             var index = j + 1
 
             playerInfoRef.document(team[j]).get().addOnSuccessListener {
@@ -100,14 +87,6 @@ class TeamPageFragment(
         }
 
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-        updateUI()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -127,6 +106,13 @@ class TeamPageFragment(
         view.findViewById<Button>(R.id.add_teammate_btn).setOnClickListener {
             showAddDialog()
         }
+
+        teamRef.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+            team.clear()
+            team.addAll(documentSnapshot!!["users"] as ArrayList<String>)
+            updateUI()
+        }
+
         return view
     }
 
@@ -144,18 +130,17 @@ class TeamPageFragment(
             playerInfoRef.whereEqualTo("gamename", name.toString()).get()
                 .addOnSuccessListener {
                     for (snp in it) {
+                        Log.d(TAG, "Added")
                         team!!.add(User.fromSnapshot(snp).uid)
                         teamRef.update("users", team)
                     }
+//                    updateUI()
                 }.addOnFailureListener {
                     Log.d(TAG, "Cant find the player")
                 }
-            updateUI()
         }
 
-        builder.setNegativeButton(android.R.string.cancel){dialog, which ->
-            updateUI()
-        }
+        builder.setNegativeButton(android.R.string.cancel, null)
         builder.create().show()
     }
 }
