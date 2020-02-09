@@ -18,6 +18,7 @@ class CompPageFragmentViewHolder : RecyclerView.ViewHolder {
     val cardTitle: TextView = itemView.comp_name
     lateinit var adapter: CompPageFragmentAdapter
     lateinit var context: Context
+    private var users: ArrayList<User> = arrayListOf()
     val spin1:Spinner = itemView.spinner_1
     val spin2:Spinner = itemView.spinner_2
     val spin3:Spinner = itemView.spinner_3
@@ -25,16 +26,17 @@ class CompPageFragmentViewHolder : RecyclerView.ViewHolder {
     val spin5:Spinner = itemView.spinner_5
 
 
-    constructor(itemView: View, adapter: CompPageFragmentAdapter, context: Context) : super(itemView) {
+    constructor(itemView: View, adapter: CompPageFragmentAdapter, context: Context, users: ArrayList<User>) : super(itemView) {
         this.context = context
         this.adapter = adapter
+        this.users = users
     }
 
     fun bind(comp : Comp) {
         cardTitle.text = comp.name
 
         for(i in 1..5) {
-            for((ind, name) in comp.users.withIndex()) {
+            for((ind, name) in users.withIndex()) {
                 when (i) {
                     1 -> {
                         if(name.lane.equals("top")) {
@@ -57,8 +59,8 @@ class CompPageFragmentViewHolder : RecyclerView.ViewHolder {
                     2 -> {
                         if(name.lane.equals("mid")) {
                             var ad : ArrayAdapter<String> = ArrayAdapter(context,R.layout.support_simple_spinner_dropdown_item, name.preferedChampions)
-                            spin1.adapter = ad
-                            spin1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                            spin2.adapter = ad
+                            spin2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                                 override fun onNothingSelected(parent: AdapterView<*>?) {
 
                                 }
@@ -75,8 +77,8 @@ class CompPageFragmentViewHolder : RecyclerView.ViewHolder {
                     3 -> {
                         if(name.lane.equals("sup")) {
                             var ad : ArrayAdapter<String> = ArrayAdapter(context,R.layout.support_simple_spinner_dropdown_item, name.preferedChampions)
-                            spin1.adapter = ad
-                            spin1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                            spin3.adapter = ad
+                            spin3.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                                 override fun onNothingSelected(parent: AdapterView<*>?) {
 
                                 }
@@ -93,8 +95,8 @@ class CompPageFragmentViewHolder : RecyclerView.ViewHolder {
                     4 -> {
                         if(name.lane.equals("ad")) {
                             var ad : ArrayAdapter<String> = ArrayAdapter(context,R.layout.support_simple_spinner_dropdown_item, name.preferedChampions)
-                            spin1.adapter = ad
-                            spin1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                            spin4.adapter = ad
+                            spin4.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                                 override fun onNothingSelected(parent: AdapterView<*>?) {
 
                                 }
@@ -111,8 +113,8 @@ class CompPageFragmentViewHolder : RecyclerView.ViewHolder {
                     5 -> {
                         if(name.lane.equals("jungle")) {
                             var ad : ArrayAdapter<String> = ArrayAdapter(context,R.layout.support_simple_spinner_dropdown_item, name.preferedChampions)
-                            spin1.adapter = ad
-                            spin1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                            spin5.adapter = ad
+                            spin5.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                                 override fun onNothingSelected(parent: AdapterView<*>?) {
 
                                 }

@@ -16,7 +16,7 @@ data class Comp(
     var sup: String = "",
     var ad: String = "",
     var jungle: String = "",
-    var users: ArrayList<User> = arrayListOf()
+    var users: ArrayList<String> = arrayListOf()
 ) : Parcelable {
     @get:Exclude
     var id: String = ""
