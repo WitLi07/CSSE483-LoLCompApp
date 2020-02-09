@@ -77,11 +77,11 @@ class MainActivity : AppCompatActivity(),
         val playerInfoRef = FirebaseFirestore
             .getInstance()
             .collection("users")
-        var users_User: ArrayList<User>? = arrayListOf()
+        var users_User: ArrayList<String>? = arrayListOf()
         for (user in team.users) {
             playerInfoRef.whereEqualTo("uid", user).get().addOnSuccessListener {
                 for(snp in it){
-                    users_User!!.add(User.fromSnapshot(snp))
+                    users_User!!.add(User.fromSnapshot(snp).uid)
                 }
             }
         }

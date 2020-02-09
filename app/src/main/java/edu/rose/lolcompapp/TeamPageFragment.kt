@@ -46,7 +46,7 @@ class TeamPageFragment(
         view.findViewById<Button>(R.id.view_comp_btn).setOnClickListener {
 
             val ft = activity?.supportFragmentManager?.beginTransaction()
-            val fragment = CompPageFragment()
+            val fragment = CompPageFragment(uid, teamRef, team)
             ft?.replace(R.id.fragment_container, fragment)
             ft?.addToBackStack("team")
             ft?.commit()
