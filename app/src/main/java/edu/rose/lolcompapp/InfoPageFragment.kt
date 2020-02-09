@@ -11,6 +11,7 @@ import android.widget.*
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -22,6 +23,10 @@ import kotlinx.android.synthetic.main.fragment_info_page.view.*
 private const val ARG_UID = "UID"
 
 class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelectedListener {
+    interface OnTeamSelectedListener {
+        fun onTeamSelected(team: Team)
+    }
+
     private var uid: String? = null
     private var rootView: View? = null
 
@@ -61,16 +66,32 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
 
         rootView = inflater.inflate(R.layout.fragment_info_page, container, false)
 
         rootView!!.findViewById<Button>(R.id.create_team_btn).setOnClickListener {
+            val teamRef = FirebaseFirestore
+                .getInstance()
+                .collection("teams")
+                .add(Team(uid!!, arrayListOf("$uid")))
+                .addOnCompleteListener {
+                    val that = it
+                    playerInfoRef.document(uid!!).get().addOnSuccessListener {
+                        val teamRefList = it["teams"] as ArrayList<DocumentReference>
+                        teamRefList.add(that.result!!)
+                        playerInfoRef.document(uid!!).set(User(
+                            uid!!,
+                            it["gamename"]as String,
+                            it["lane"] as String,
+                            it["preferedChampions"] as ArrayList<String>,
+                            teamRefList))
 
+                    }
+                }
             val ft = activity?.supportFragmentManager?.beginTransaction()
             val fragment = TeamPageFragment()
             ft?.replace(R.id.fragment_container, fragment)
-            ft?.addToBackStack("info")
+            ft?.addToBackStack("team")
             ft?.commit()
         }
 
@@ -88,15 +109,21 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
             val gameName = (snapshot["gamename"] ?: "") as String
             val lane = (snapshot["lane"] ?: "") as String
-            val champs = (snapshot["preferedChampions"] ?: {}) as ArrayList<String>
+            val champs = snapshot["preferedChampions"] as ArrayList<String>
             rootView!!.findViewById<TextView>(R.id.gamename_value).text = gameName
             rootView!!.findViewById<TextView>(R.id.lane_value).text = lane
-            for ((i,name) in champs.withIndex()) {
-                var imgId:String = "cham" + (i+1)
-                val img:ImageView = rootView!!.findViewById(resources.getIdentifier(imgId, "id", activity!!.packageName))
+            for ((i, name) in champs.withIndex()) {
+                var imgId: String = "cham" + (i + 1)
+                val img: ImageView = rootView!!.findViewById(
+                    resources.getIdentifier(
+                        imgId,
+                        "id",
+                        activity!!.packageName
+                    )
+                )
 //                Picasso.get().load(storageRef.child(name).downloadUrl.toString()).into(img)
 //                Picasso.get().load(storageRef.child("Jax.png").downloadUrl.result).into(img)
-                storageRef.child(name+".png").downloadUrl.addOnCompleteListener {
+                storageRef.child(name + ".png").downloadUrl.addOnCompleteListener {
                     val url = it.result
                     Picasso.get().load(url).into(img)
                 }
@@ -162,7 +189,8 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
             val prefChamp2 = spinner2.selectedItem.toString()
             val prefChamp3 = spinner3.selectedItem.toString()
             val prefChamp4 = spinner4.selectedItem.toString()
-            val prefChampsArray = arrayListOf<String>(prefChamp1, prefChamp2, prefChamp3, prefChamp4)
+            val prefChampsArray =
+                arrayListOf<String>(prefChamp1, prefChamp2, prefChamp3, prefChamp4)
 
 
             playerInfoDocRef.set(User(uid!!, gameName, lane, prefChampsArray))

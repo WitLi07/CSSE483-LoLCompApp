@@ -12,7 +12,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_info_page.*
 
-class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedListener {
+class MainActivity : AppCompatActivity(),
+    LoginFragment.OnLoginButtonPressedListener,
+    InfoPageFragment.OnTeamSelectedListener{
 
     private var auth = FirebaseAuth.getInstance()
     lateinit var authStateListener: FirebaseAuth.AuthStateListener
@@ -69,6 +71,14 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
         ft.commit()
     }
 
+    fun switchToTeamFragment() {
+        val fragment = TeamPageFragment()
+        val ft = supportFragmentManager.beginTransaction()
+        ft.addToBackStack("team")
+        ft.replace(R.id.fragment_container, fragment)
+        ft.commit()
+    }
+
     fun switchToLoginFragment() {
 
         val fragment = LoginFragment()
@@ -112,6 +122,10 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
             .build()
 
         startActivityForResult(loginIntent, RC_SIGN_IN)
+    }
+
+    override fun onTeamSelected(team: Team) {
+        switchToTeamFragment()
     }
 
 
