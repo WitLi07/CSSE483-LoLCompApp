@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_info_page.*
 
 class MainActivity : AppCompatActivity(),
     LoginFragment.OnLoginButtonPressedListener,
-    InfoPageFragment.OnTeamSelectedListener{
+    InfoPageFragment.OnTeamSelectedListener {
 
     private var auth = FirebaseAuth.getInstance()
     lateinit var authStateListener: FirebaseAuth.AuthStateListener
@@ -72,8 +73,25 @@ class MainActivity : AppCompatActivity(),
         ft.commit()
     }
 
-    fun switchToTeamFragment() {
-        val fragment = TeamPageFragment()
+    fun switchToTeamFragment(team: Team, teamRef: DocumentReference) {
+        val playerInfoRef = FirebaseFirestore
+            .getInstance()
+            .collection("users")
+        var users_User: ArrayList<User>? = arrayListOf()
+        for (user in team.users) {
+            playerInfoRef.whereEqualTo("uid", user).get().addOnSuccessListener {
+                for(snp in it){
+                    users_User!!.add(User.fromSnapshot(snp))
+                }
+            }
+        }
+
+
+        val fragment = TeamPageFragment(
+            auth.currentUser!!.uid!!,
+            teamRef,
+            users_User!!
+        )
         val ft = supportFragmentManager.beginTransaction()
         ft.addToBackStack("team")
         ft.replace(R.id.fragment_container, fragment)
@@ -125,8 +143,8 @@ class MainActivity : AppCompatActivity(),
         startActivityForResult(loginIntent, RC_SIGN_IN)
     }
 
-    override fun onTeamSelected(team: Team) {
-        switchToTeamFragment()
+    override fun onTeamSelected(team: Team, teamRef: DocumentReference) {
+        switchToTeamFragment(team, teamRef)
     }
 
 

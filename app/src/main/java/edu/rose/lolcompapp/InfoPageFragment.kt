@@ -27,7 +27,7 @@ private const val ARG_UID = "UID"
 
 class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelectedListener {
     interface OnTeamSelectedListener {
-        fun onTeamSelected(team: Team)
+        fun onTeamSelected(team: Team, teamRef: DocumentReference)
     }
 
     private var uid: String? = null
@@ -88,23 +88,37 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
                 .add(Team(uid!!, arrayListOf("$uid")))
                 .addOnCompleteListener {
                     val that = it
+//                    it.result?.get()!!.addOnSuccessListener {
+//                        it["myRef"] = that.toString()
+//                    }
                     playerInfoRef.document(uid!!).get().addOnSuccessListener {
                         val teamRefList = it["teams"] as ArrayList<DocumentReference>
                         teamRefList.add(that.result!!)
-                        playerInfoRef.document(uid!!).set(User(
-                            uid!!,
-                            it["gamename"]as String,
-                            it["lane"] as String,
-                            it["preferedChampions"] as ArrayList<String>,
-                            teamRefList))
+                        playerInfoRef.document(uid!!).set(
+                            User(
+                                uid!!,
+                                it["gamename"] as String,
+                                it["lane"] as String,
+                                it["preferedChampions"] as ArrayList<String>,
+                                teamRefList
+                            )
+                        )
 
                     }
+
+                    it.result!!.get().addOnSuccessListener {
+                        val ft = activity?.supportFragmentManager?.beginTransaction()
+                        val fragment = TeamPageFragment(
+                            uid!!,
+                            that.result!!,
+                            it["users"] as ArrayList<User>
+                        )
+                        ft?.replace(R.id.fragment_container, fragment)
+                        ft?.addToBackStack("team")
+                        ft?.commit()
+                    }
+
                 }
-            val ft = activity?.supportFragmentManager?.beginTransaction()
-            val fragment = TeamPageFragment()
-            ft?.replace(R.id.fragment_container, fragment)
-            ft?.addToBackStack("team")
-            ft?.commit()
         }
 
         rootView!!.findViewById<Button>(R.id.edit_info_btn).setOnClickListener {

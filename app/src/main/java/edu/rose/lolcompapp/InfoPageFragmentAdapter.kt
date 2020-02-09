@@ -15,6 +15,7 @@ class InfoPageFragmentAdapter(
 ) : RecyclerView.Adapter<InfoPageFragmentViewHolder>() {
 
     private var listOfTeams: ArrayList<Team> = arrayListOf()
+    private lateinit var listOfTeamsRef: ArrayList<DocumentReference>
     private val teamRef = FirebaseFirestore
         .getInstance()
         .collection("users")
@@ -23,7 +24,7 @@ class InfoPageFragmentAdapter(
     init {
         teamRef.get().addOnSuccessListener {
 
-            var listOfTeamsRef = it["teams"] as ArrayList<DocumentReference>
+            listOfTeamsRef = it["teams"] as ArrayList<DocumentReference>
 
             for (teamRef in listOfTeamsRef) {
                 teamRef.get().addOnSuccessListener {
@@ -37,7 +38,8 @@ class InfoPageFragmentAdapter(
 
     fun selectTeamAt(adapterPosition: Int) {
         var team = listOfTeams[adapterPosition]
-        listener?.onTeamSelected(team)
+        var teamRef = listOfTeamsRef[adapterPosition]
+        listener?.onTeamSelected(team, teamRef)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InfoPageFragmentViewHolder {
