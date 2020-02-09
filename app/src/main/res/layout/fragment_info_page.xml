@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
-    tools:showIn="@layout/activity_main">
+    >
 
     <TextView
         android:id="@+id/info_title"
@@ -118,9 +118,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/info_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/teams_textview"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:layout_above="@+id/create_team_btn"/>
 
     <Button
         android:id="@+id/create_team_btn"

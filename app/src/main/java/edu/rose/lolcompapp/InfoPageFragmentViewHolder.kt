@@ -1,26 +1,27 @@
-package edu.rose.lolcompapp.info_page_recycler_view_support_classes
+package edu.rose.lolcompapp
 
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import edu.rose.lolcompapp.Constants.TAG
+import edu.rose.lolcompapp.InfoPageFragmentAdapter
 import edu.rose.lolcompapp.Team
 import kotlinx.android.synthetic.main.info_page_fragment_cardview.view.*
 
 class InfoPageFragmentViewHolder : RecyclerView.ViewHolder {
-    var numberOfTeams: Int = 0
     val cardTitle: TextView = itemView.info_page_card_view_title
 
     constructor(itemView: View, adapter: InfoPageFragmentAdapter) : super(itemView) {
 
-        numberOfTeams = 0
 
         itemView.setOnClickListener {
-            adapter.selectPicAt(adapterPosition)
+            adapter.selectTeamAt(adapterPosition)
         }
     }
 
     fun bind(team: Team) {
-        numberOfTeams++
-        cardTitle.text = "Team $numberOfTeams"
+        cardTitle.text = "Team"
+//        Log.d(TAG, "binded")
     }
 }

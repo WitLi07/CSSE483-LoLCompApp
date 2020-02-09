@@ -10,12 +10,15 @@ import android.view.ViewGroup
 import android.widget.*
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
+import edu.rose.lolcompapp.Constants.TAG
 import kotlinx.android.synthetic.main.change_info_model.view.*
 import kotlinx.android.synthetic.main.fragment_info_page.view.*
 
@@ -29,6 +32,7 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
     private var uid: String? = null
     private var rootView: View? = null
+    private var listener: OnTeamSelectedListener? = null
 
 
     val playerInfoRef = FirebaseFirestore
@@ -59,7 +63,6 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
         arguments?.let {
             uid = it.getString(ARG_UID)
         }
-
     }
 
     override fun onCreateView(
@@ -68,6 +71,15 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
     ): View? {
 
         rootView = inflater.inflate(R.layout.fragment_info_page, container, false)
+
+
+        val RV = rootView!!.findViewById(R.id.info_recycler) as RecyclerView
+        val adapter = InfoPageFragmentAdapter(context!!, uid!!, listener!!)
+        RV.layoutManager = LinearLayoutManager(context)
+        RV.setHasFixedSize(true)
+        RV.adapter = adapter
+//        Log.d(Constants.TAG, "uid : ${adapter}")
+
 
         rootView!!.findViewById<Button>(R.id.create_team_btn).setOnClickListener {
             val teamRef = FirebaseFirestore
@@ -98,9 +110,22 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
         rootView!!.findViewById<Button>(R.id.edit_info_btn).setOnClickListener {
             showEditDialog()
         }
-
         updateUI()
         return rootView
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnTeamSelectedListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     fun updateUI() {

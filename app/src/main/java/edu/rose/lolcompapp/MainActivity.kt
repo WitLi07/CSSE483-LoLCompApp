@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -65,7 +67,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     fun switchToInfoPage(uid: String = "") {
-        val fragment = InfoPageFragment(this)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.fragment_container, InfoPageFragment.newInstance(this, uid))
         ft.commit()
