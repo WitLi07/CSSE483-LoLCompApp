@@ -85,7 +85,7 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
             val teamRef = FirebaseFirestore
                 .getInstance()
                 .collection("teams")
-                .add(Team(uid!!, arrayListOf("$uid")))
+                .add(Team(uid!!, arrayListOf(uid!!)))
                 .addOnCompleteListener {
                     val that = it
 //                    it.result?.get()!!.addOnSuccessListener {
@@ -111,7 +111,7 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
                         val fragment = TeamPageFragment(
                             uid!!,
                             that.result!!,
-                            it["users"] as ArrayList<User>
+                            it["users"] as ArrayList<String>
                         )
                         ft?.replace(R.id.fragment_container, fragment)
                         ft?.addToBackStack("team")
@@ -148,7 +148,8 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
             val gameName = (snapshot["gamename"] ?: "") as String
             val lane = (snapshot["lane"] ?: "") as String
-            val champs = snapshot["preferedChampions"] as ArrayList<String>
+            val champs =
+                (snapshot["preferedChampions"] ?: arrayListOf<String>()) as ArrayList<String>
             rootView!!.findViewById<TextView>(R.id.gamename_value).text = gameName
             rootView!!.findViewById<TextView>(R.id.lane_value).text = lane
             for ((i, name) in champs.withIndex()) {
@@ -256,7 +257,6 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

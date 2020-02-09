@@ -25,7 +25,7 @@ private const val ARG_TEAM = "TEAM"
 class TeamPageFragment(
     var uid: String,
     var teamRef: DocumentReference,
-    var team: ArrayList<User>
+    var team: ArrayList<String>
 ) : Fragment() {
     val playerInfoRef = FirebaseFirestore
         .getInstance()
@@ -46,7 +46,7 @@ class TeamPageFragment(
         view.findViewById<Button>(R.id.view_comp_btn).setOnClickListener {
 
             val ft = activity?.supportFragmentManager?.beginTransaction()
-            val fragment = CompPageFragment(uid, teamRef, team)
+            val fragment = CompPageFragment()
             ft?.replace(R.id.fragment_container, fragment)
             ft?.addToBackStack("team")
             ft?.commit()
@@ -96,7 +96,7 @@ class TeamPageFragment(
             playerInfoRef.whereEqualTo("gamename", name.toString()).get()
                 .addOnSuccessListener {
                     for (snp in it) {
-                        team!!.add(User.fromSnapshot(snp))
+                        team!!.add(User.fromSnapshot(snp).uid)
                         teamRef.update("users", team)
                     }
                 }.addOnFailureListener {
