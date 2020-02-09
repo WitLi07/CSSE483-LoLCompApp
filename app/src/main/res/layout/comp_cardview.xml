@@ -20,40 +20,35 @@
             android:textStyle="bold"
             android:layout_marginTop="10dp"/>
 
-        <ImageView
-            android:id="@+id/comp_champ1"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/loading_icon" />
+        <Spinner
+            android:id="@+id/spinner_1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"/>
 
-        <ImageView
-            android:id="@+id/comp_champ2"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/loading_icon" />
+        <Spinner
+            android:id="@+id/spinner_2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"/>
 
-        <ImageView
-            android:id="@+id/comp_champ3"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/loading_icon" />
+        <Spinner
+            android:id="@+id/spinner_3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"/>
 
-        <ImageView
-            android:id="@+id/comp_champ4"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/loading_icon" />
+        <Spinner
+            android:id="@+id/spinner_4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"/>
 
-        <ImageView
-            android:id="@+id/comp_champ5"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/loading_icon" />
+        <Spinner
+            android:id="@+id/spinner_5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"/>
 
 
     </LinearLayout>
