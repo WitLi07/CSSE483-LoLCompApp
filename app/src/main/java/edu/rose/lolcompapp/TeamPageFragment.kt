@@ -1,5 +1,6 @@
 package edu.rose.lolcompapp
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -40,8 +41,22 @@ class TeamPageFragment(
         .reference
         .child("champImages")
 
+    companion object {
+        @JvmStatic
+        fun newInstance(uid: String,
+                        teamRef: DocumentReference,
+                        team: ArrayList<String>) =
+            TeamPageFragment(uid, teamRef, team).apply {
+                arguments = Bundle().apply {
+                    putString(ARG_UID, uid)
+                }
+            }
+    }
 
     private fun updateUI() {
+        if(context == null)
+            return
+
         for ((j, player) in team.withIndex()) {
 //            Log.d(TAG, "Running ${team}, $j")
 //            Log.d(TAG, "Running ${team[j]}")
@@ -49,6 +64,8 @@ class TeamPageFragment(
 
             playerInfoRef.document(team[j]).get().addOnSuccessListener {
                 var gameId: String = "team_page_name_$index"
+                Log.d(TAG, gameId)
+                Log.d(TAG, rootView.toString())
                 rootView.findViewById<TextView>(
                     resources.getIdentifier(
                         gameId,
@@ -87,6 +104,17 @@ class TeamPageFragment(
         }
 
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d(TAG, context.toString())
+        teamRef.addSnapshotListener{ documentSnapshot, firebaseFirestoreException ->
+            team.clear()
+            team.addAll(documentSnapshot!!["users"] as ArrayList<String>)
+            updateUI()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -105,12 +133,6 @@ class TeamPageFragment(
 
         view.findViewById<Button>(R.id.add_teammate_btn).setOnClickListener {
             showAddDialog()
-        }
-
-        teamRef.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-            team.clear()
-            team.addAll(documentSnapshot!!["users"] as ArrayList<String>)
-            updateUI()
         }
 
         return view

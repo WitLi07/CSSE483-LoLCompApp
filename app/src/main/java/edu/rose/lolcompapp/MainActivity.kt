@@ -75,23 +75,23 @@ class MainActivity : AppCompatActivity(),
     }
 
     fun switchToTeamFragment(team: Team, teamRef: DocumentReference) {
-        val playerInfoRef = FirebaseFirestore
-            .getInstance()
-            .collection("users")
-        var users_User: ArrayList<String>? = arrayListOf()
-        for (user in team.users) {
-            playerInfoRef.whereEqualTo("uid", user).get().addOnSuccessListener {
-                for(snp in it){
-                    users_User!!.add(User.fromSnapshot(snp).uid)
-                }
-            }
-        }
+//        val playerInfoRef = FirebaseFirestore
+//            .getInstance()
+//            .collection("users")
+//        var users_User: ArrayList<String>? = arrayListOf()
+//        for (user in team.users) {
+//            playerInfoRef.whereEqualTo("uid", user).get().addOnSuccessListener {
+//                for(snp in it){
+//                    users_User!!.add(User.fromSnapshot(snp).uid)
+//                }
+//            }
+//        }
 
 
-        val fragment = TeamPageFragment(
+        val fragment = TeamPageFragment.newInstance(
             auth.currentUser!!.uid!!,
             teamRef,
-            users_User!!
+            arrayListOf()
         )
         val ft = supportFragmentManager.beginTransaction()
         ft.addToBackStack("team")
