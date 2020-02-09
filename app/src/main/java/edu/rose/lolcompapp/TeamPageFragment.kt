@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import edu.rose.lolcompapp.Constants.TAG
+import kotlinx.android.synthetic.main.add_teammate_model.view.*
 import kotlinx.android.synthetic.main.fragment_team_page.view.*
 
 private const val ARG_UID = "UID"
@@ -45,7 +46,7 @@ class TeamPageFragment(
         view.findViewById<Button>(R.id.view_comp_btn).setOnClickListener {
 
             val ft = activity?.supportFragmentManager?.beginTransaction()
-            val fragment = CompPageFragment()
+            val fragment = CompPageFragment(uid, teamRef, team)
             ft?.replace(R.id.fragment_container, fragment)
             ft?.addToBackStack("team")
             ft?.commit()
@@ -59,10 +60,10 @@ class TeamPageFragment(
             view.team_page_name_1.text = it["gamename"] as String
             view.team_page_lane_1.text = it["lane"] as String
             val champs = it["preferedChampions"] as ArrayList<String>
-//            Log.d(TAG, "$champs")
+
+
             for ((i, name) in champs.withIndex()) {
                 var imgId: String = "team_page_image_view_1_" + (i + 1)
-//                Log.d(TAG, "$imgId")
                 val img: ImageView = view.findViewById(
                     resources.getIdentifier(
                         imgId,
@@ -70,14 +71,13 @@ class TeamPageFragment(
                         activity?.packageName
                     )
                 )
-//                Log.d(TAG, "$img")
                 storageRef.child(name + ".png").downloadUrl.addOnCompleteListener {
                     val url = it.result
                     Picasso.get().load(url).into(img)
                 }
             }
-
         }
+
 
 
         return view
@@ -91,16 +91,18 @@ class TeamPageFragment(
         builder.setView(view)
 
 
-//        titleRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
-//            // prepopulate from firestore
-//            val author = (snapshot["title"] ?: "") as String
-//            view.edit_text.setText(author)
-//        }
-
-//        builder.setPositiveButton(android.R.string.ok) { _, _ ->
-//            val newTitle = view.edit_text.text.toString() // update local title
-////            titleRef.set(mapOf<String, String>(Pair("title", newTitle))) // update firestore
-//        }
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
+            val name = view.add_teammate_edit_text.text
+            playerInfoRef.whereEqualTo("gamename", name.toString()).get()
+                .addOnSuccessListener {
+                    for (snp in it) {
+                        team!!.add(User.fromSnapshot(snp))
+                        teamRef.update("users", team)
+                    }
+                }.addOnFailureListener {
+                    Log.d(TAG, "Cant find the player")
+                }
+        }
 
         builder.setNegativeButton(android.R.string.cancel, null)
         builder.create().show()

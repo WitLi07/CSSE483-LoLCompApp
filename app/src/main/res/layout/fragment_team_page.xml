@@ -141,21 +141,25 @@
             android:rowCount="2">
 
             <ImageView
+                android:id="@+id/team_page_image_view_2_1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
 
             <ImageView
+                android:id="@+id/team_page_image_view_2_2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
 
             <ImageView
+                android:id="@+id/team_page_image_view_2_3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
 
             <ImageView
+                android:id="@+id/team_page_image_view_2_4"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
@@ -196,21 +200,25 @@
             android:rowCount="2">
 
             <ImageView
+                android:id="@+id/team_page_image_view_3_1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
 
             <ImageView
+                android:id="@+id/team_page_image_view_3_2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
 
             <ImageView
+                android:id="@+id/team_page_image_view_3_3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
 
             <ImageView
+                android:id="@+id/team_page_image_view_3_4"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
@@ -251,21 +259,25 @@
             android:rowCount="2">
 
             <ImageView
+                android:id="@+id/team_page_image_view_4_1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
 
             <ImageView
+                android:id="@+id/team_page_image_view_4_2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
 
             <ImageView
+                android:id="@+id/team_page_image_view_4_3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
 
             <ImageView
+                android:id="@+id/team_page_image_view_4_4"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
@@ -305,21 +317,25 @@
             android:rowCount="2">
 
             <ImageView
+                android:id="@+id/team_page_image_view_5_1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
 
             <ImageView
+                android:id="@+id/team_page_image_view_5_2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
 
             <ImageView
+                android:id="@+id/team_page_image_view_5_3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />
 
             <ImageView
+                android:id="@+id/team_page_image_view_5_4"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/question_mark_icon" />

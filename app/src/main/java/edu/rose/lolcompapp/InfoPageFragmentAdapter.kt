@@ -23,13 +23,14 @@ class InfoPageFragmentAdapter(
 
     init {
         teamRef.get().addOnSuccessListener {
+            if (it["teams"] != null) {
+                listOfTeamsRef = it["teams"] as ArrayList<DocumentReference>
 
-            listOfTeamsRef = it["teams"] as ArrayList<DocumentReference>
-
-            for (teamRef in listOfTeamsRef) {
-                teamRef.get().addOnSuccessListener {
-                    listOfTeams.add(Team.fromSnapshot(it))
-                    notifyItemInserted(listOfTeams.size)
+                for (teamRef in listOfTeamsRef) {
+                    teamRef.get().addOnSuccessListener {
+                        listOfTeams.add(Team.fromSnapshot(it))
+                        notifyItemInserted(listOfTeams.size)
+                    }
                 }
             }
 //            notifyDataSetChanged()
