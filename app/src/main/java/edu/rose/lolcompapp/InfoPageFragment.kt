@@ -38,6 +38,7 @@ import uk.co.senab.photoview.PhotoViewAttacher
 
 
 private const val ARG_UID = "UID"
+private const val ARG_EMAIL = "EMAIL"
 
 class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelectedListener,
     OnClickableAreaClickedListener<Lane> {
@@ -46,6 +47,7 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
     }
 
     private var uid: String? = null
+    private var email: String? = null
     private var rootView: View? = null
     private var listener: OnTeamSelectedListener? = null
     private var mapTitle: TextView? = null
@@ -69,11 +71,13 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
         @JvmStatic
         fun newInstance(
             context: Context,
-            uid: String
+            uid: String,
+            email: String
         ): InfoPageFragment {
             return InfoPageFragment(context).apply {
                 arguments = Bundle().apply {
                     putString(ARG_UID, uid)
+                    putString(ARG_EMAIL, email)
                 }
             }
         }
@@ -83,6 +87,7 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
         super.onCreate(savedInstanceState)
         arguments?.let {
             uid = it.getString(ARG_UID)
+            email = it.getString(ARG_EMAIL)
         }
     }
 
@@ -92,18 +97,6 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
     ): View? {
 
         rootView = inflater.inflate(R.layout.fragment_info_page, container, false)
-
-
-        val RV = rootView!!.findViewById(R.id.info_recycler) as RecyclerView
-        val adapter = InfoPageFragmentAdapter(context!!, uid!!, listener!!)
-        RV.layoutManager = LinearLayoutManager(context)
-        RV.setHasFixedSize(true)
-
-        val callback: ItemTouchHelper.Callback = SimpleItemTouchHelperCallback(adapter, rootView!!)
-        val touchHelper = ItemTouchHelper(callback)
-
-        touchHelper.attachToRecyclerView(RV)
-        RV.adapter = adapter
 
 
         rootView!!.findViewById<Button>(R.id.create_team_btn).setOnClickListener {
@@ -150,6 +143,17 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
         attachSnapshotListener()
 
+        val RV = rootView!!.findViewById(R.id.info_recycler) as RecyclerView
+        val adapter = InfoPageFragmentAdapter(context!!, uid!!, listener!!)
+        RV.layoutManager = LinearLayoutManager(context)
+        RV.setHasFixedSize(true)
+
+        val callback: ItemTouchHelper.Callback = SimpleItemTouchHelperCallback(adapter, rootView!!)
+        val touchHelper = ItemTouchHelper(callback)
+
+        touchHelper.attachToRecyclerView(RV)
+        RV.adapter = adapter
+
         return rootView
     }
 
@@ -179,6 +183,8 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
         val lane = (snapshot["lane"] ?: "") as String
         val champs =
             (snapshot["preferedChampions"] ?: arrayListOf<String>()) as ArrayList<String>
+        Log.d(TAG, email.toString())
+        rootView!!.findViewById<TextView>(R.id.username_value).text = email
         rootView!!.findViewById<TextView>(R.id.gamename_value).text = gameName
         rootView!!.findViewById<TextView>(R.id.lane_value).text = lane
         for ((i, name) in champs.withIndex()) {

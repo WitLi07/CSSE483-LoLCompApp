@@ -60,17 +60,17 @@ class MainActivity : AppCompatActivity(),
                             playerInfoRef.document(user.uid).set(User(user.uid))
                         }
                     }
-
-                switchToInfoPage(user.uid)
+                Log.d(Constants.TAG, user.email.toString())
+                switchToInfoPage(user.uid, user.email!!)
             } else {
                 switchToLoginFragment()
             }
         }
     }
 
-    fun switchToInfoPage(uid: String = "") {
+    fun switchToInfoPage(uid: String, email: String) {
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_container, InfoPageFragment.newInstance(this, uid))
+        ft.replace(R.id.fragment_container, InfoPageFragment.newInstance(this, uid, email))
         ft.commit()
     }
 
@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity(),
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_home -> {
-                switchToInfoPage(auth.currentUser!!.uid)
+                switchToInfoPage(auth.currentUser!!.uid, auth.currentUser!!.email!!)
                 true
             }
             R.id.action_logout -> {
