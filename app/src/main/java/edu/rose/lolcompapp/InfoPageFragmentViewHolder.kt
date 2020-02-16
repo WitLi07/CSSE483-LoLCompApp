@@ -13,8 +13,9 @@ class InfoPageFragmentViewHolder : RecyclerView.ViewHolder {
     val cardTitle: TextView = itemView.info_page_card_view_title
 
     constructor(itemView: View, adapter: InfoPageFragmentAdapter) : super(itemView) {
-
-
+        itemView.setOnClickListener {
+            adapter.selectTeamAt(adapterPosition)
+        }
         itemView.setOnClickListener {
             adapter.selectTeamAt(adapterPosition)
         }
@@ -22,6 +23,5 @@ class InfoPageFragmentViewHolder : RecyclerView.ViewHolder {
 
     fun bind(team: Team) {
         cardTitle.text = "Team"
-//        Log.d(TAG, "binded")
     }
 }
