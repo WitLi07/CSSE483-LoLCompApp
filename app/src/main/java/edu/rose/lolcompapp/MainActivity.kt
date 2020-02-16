@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(),
                             playerInfoRef.document(user.uid).set(User(user.uid))
                         }
                     }
-                Log.d(Constants.TAG, user.email.toString())
+//                Log.d(Constants.TAG, user.email.toString())
                 switchToInfoPage(user.uid, user.email!!)
             } else {
                 switchToLoginFragment()
