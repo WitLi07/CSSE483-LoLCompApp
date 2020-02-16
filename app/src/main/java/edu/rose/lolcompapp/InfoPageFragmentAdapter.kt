@@ -28,7 +28,8 @@ class InfoPageFragmentAdapter(
 
     init {
         userRef.get().addOnSuccessListener {
-            teamLength = (it["teams"] as ArrayList<DocumentReference>).size
+            teamLength = (((it["teams"]
+                ?: arrayListOf<DocumentReference>()) as ArrayList<DocumentReference>)).size
         }
         userRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
