@@ -78,7 +78,6 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
         RV.layoutManager = LinearLayoutManager(context)
         RV.setHasFixedSize(true)
         RV.adapter = adapter
-//        Log.d(Constants.TAG, "uid : ${adapter}")
 
 
         rootView!!.findViewById<Button>(R.id.create_team_btn).setOnClickListener {
@@ -88,9 +87,7 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
                 .add(Team(uid!!, arrayListOf(uid!!)))
                 .addOnCompleteListener {
                     val that = it
-//                    it.result?.get()!!.addOnSuccessListener {
-//                        it["myRef"] = that.toString()
-//                    }
+
                     playerInfoRef.document(uid!!).get().addOnSuccessListener {
                         val teamRefList = it["teams"] as ArrayList<DocumentReference>
                         teamRefList.add(that.result!!)
@@ -124,8 +121,29 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
         rootView!!.findViewById<Button>(R.id.edit_info_btn).setOnClickListener {
             showEditDialog()
         }
-        updateUI()
+
+        attachSnapshotListener()
+
         return rootView
+    }
+
+    private fun attachSnapshotListener() {
+        val playerInfoDocRef = playerInfoRef.document(uid!!)
+
+        playerInfoDocRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, "Current data: ${snapshot.data}")
+
+                updateUI(snapshot)
+            } else {
+                Log.d(TAG, "Current data: null")
+            }
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -142,32 +160,45 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
         listener = null
     }
 
-    fun updateUI() {
-        val playerInfoDocRef = playerInfoRef.document(uid!!)
-        playerInfoDocRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
-
-            val gameName = (snapshot["gamename"] ?: "") as String
-            val lane = (snapshot["lane"] ?: "") as String
-            val champs =
-                (snapshot["preferedChampions"] ?: arrayListOf<String>()) as ArrayList<String>
-            rootView!!.findViewById<TextView>(R.id.gamename_value).text = gameName
-            rootView!!.findViewById<TextView>(R.id.lane_value).text = lane
-            for ((i, name) in champs.withIndex()) {
-                var imgId: String = "cham" + (i + 1)
-                val img: ImageView = rootView!!.findViewById(
-                    resources.getIdentifier(
-                        imgId,
-                        "id",
-                        activity!!.packageName
-                    )
+    private fun updateUI(snapshot: DocumentSnapshot) {
+        clearScreen()
+        val gameName = (snapshot["gamename"] ?: "") as String
+        val lane = (snapshot["lane"] ?: "") as String
+        val champs =
+            (snapshot["preferedChampions"] ?: arrayListOf<String>()) as ArrayList<String>
+        rootView!!.findViewById<TextView>(R.id.gamename_value).text = gameName
+        rootView!!.findViewById<TextView>(R.id.lane_value).text = lane
+        for ((i, name) in champs.withIndex()) {
+            var imgId: String = "cham" + (i + 1)
+            val img: ImageView = rootView!!.findViewById(
+                resources.getIdentifier(
+                    imgId,
+                    "id",
+                    activity!!.packageName
                 )
-//                Picasso.get().load(storageRef.child(name).downloadUrl.toString()).into(img)
-//                Picasso.get().load(storageRef.child("Jax.png").downloadUrl.result).into(img)
-                storageRef.child(name + ".png").downloadUrl.addOnCompleteListener {
-                    val url = it.result
-                    Picasso.get().load(url).into(img)
-                }
+            )
+
+            storageRef.child(name + ".png").downloadUrl.addOnCompleteListener {
+                val url = it.result
+                Picasso.get().load(url).into(img)
             }
+        }
+
+    }
+
+    private fun clearScreen() {
+        rootView!!.findViewById<TextView>(R.id.gamename_value).text = "unknown"
+        rootView!!.findViewById<TextView>(R.id.lane_value).text = "unknown"
+        for (i in 1..4) {
+            var imgId: String = "cham" + (i)
+            val img: ImageView = rootView!!.findViewById(
+                resources.getIdentifier(
+                    imgId,
+                    "id",
+                    activity!!.packageName
+                )
+            )
+            img.setImageResource(R.drawable.question_mark_icon)
         }
     }
 
@@ -247,8 +278,6 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
             rootView!!.findViewById<TextView>(R.id.gamename_value).text = gameName
             rootView!!.findViewById<TextView>(R.id.lane_value).text = lane
-
-            updateUI()
 
         }
 

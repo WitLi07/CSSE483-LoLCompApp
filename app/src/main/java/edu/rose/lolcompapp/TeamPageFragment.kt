@@ -200,6 +200,7 @@ class TeamPageFragment(
         view.findViewById<Button>(R.id.add_teammate_btn).setOnClickListener {
             showAddDialog()
         }
+
         attachSnapshotListener()
         return view
     }
