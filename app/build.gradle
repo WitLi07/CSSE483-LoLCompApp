@@ -50,6 +50,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.2.2'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.Lukle:ClickableAreasImages:v0.1'
 
 
 }

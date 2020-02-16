@@ -39,13 +39,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lane_text_view" />
+    <Button
+        android:id="@+id/lane_edit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lane_edit_text"
+        android:text="Change Lane"/>
 
     <TextView
         android:id="@+id/preferred_champion_text_view"
         style="@style/textview_style"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lane_edit_text"
+        android:layout_below="@id/lane_edit_btn"
         android:layout_marginTop="25dp"
         android:text="@string/preferred_champion"
         android:textSize="30dp" />

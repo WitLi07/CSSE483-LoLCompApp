@@ -2,6 +2,11 @@ package edu.rose.lolcompapp
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,24 +14,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import android.widget.Spinner
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.DocumentChange
+import at.lukle.clickableareasimage.ClickableArea
+import at.lukle.clickableareasimage.ClickableAreasImage
+import at.lukle.clickableareasimage.OnClickableAreaClickedListener
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import edu.rose.lolcompapp.Constants.TAG
 import kotlinx.android.synthetic.main.change_info_model.view.*
-import kotlinx.android.synthetic.main.fragment_info_page.view.*
+import kotlinx.android.synthetic.main.change_lane_info_map_model.view.*
+import uk.co.senab.photoview.PhotoViewAttacher
 
 
 private const val ARG_UID = "UID"
 
-class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelectedListener {
+class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelectedListener,
+    OnClickableAreaClickedListener<Lane> {
     interface OnTeamSelectedListener {
         fun onTeamSelected(team: Team, teamRef: DocumentReference)
     }
@@ -34,6 +46,8 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
     private var uid: String? = null
     private var rootView: View? = null
     private var listener: OnTeamSelectedListener? = null
+    private var mapTitle: TextView? = null
+    private var mapTitleLane: String? = null
 
 
     val playerInfoRef = FirebaseFirestore
@@ -43,6 +57,10 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
     private val storageRef = FirebaseStorage.getInstance()
         .reference
         .child("champImages")
+
+    private val mapStorageRef = FirebaseStorage.getInstance()
+        .reference
+        .child("lolMap")
 
 
     companion object {
@@ -218,6 +236,9 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
             .inflate(R.layout.change_info_model, null, false)
         builder.setView(view)
 
+        val changeLaneButton = view.findViewById<Button>(R.id.lane_edit_btn)
+
+
         playerInfoDocRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
 
 
@@ -269,6 +290,105 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
         }
 
+        changeLaneButton.setOnClickListener {
+            mapStorageRef.child("lolMap.png").downloadUrl.addOnCompleteListener {
+                val builder1 = AlertDialog.Builder(context!!)
+
+                val mapView = LayoutInflater.from(context!!)
+                    .inflate(R.layout.change_lane_info_map_model, null, false)
+                builder1.setView(mapView)
+
+                val url = it.result
+                val that = this
+                val image = mapView.change_lane_imageView
+                mapTitle = mapView.change_lane_title
+                Picasso.get().load(url).into(image, object : Callback {
+                    override fun onSuccess() {
+//                        image.background = getDrawable(context!!, R.drawable.lolmap)
+//                        val bitmap: Bitmap = Bitmap.createBitmap(350, 350, Bitmap.Config.ARGB_8888)
+//                        val canvas = Canvas(bitmap)
+//
+//                        val paint = Paint()
+//                        paint.setColor(Color.BLACK);
+//                        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+//                        paint.setStrokeWidth(10f);
+//                        val leftx = 182f;
+//                        val topy = 157f;
+//                        val rightx = 207f;
+//                        val bottomy = 182f;
+//                        canvas?.drawRect(leftx, topy, rightx, bottomy, paint);
+//
+//
+//                        image.setImageBitmap(bitmap)
+
+
+                        val clickableAreasImage =
+                            ClickableAreasImage(PhotoViewAttacher(image), that)
+                        val clickableAreas: MutableList<ClickableArea<*>> = ArrayList()
+                        clickableAreas.add(
+                            ClickableArea<Any?>(
+                                76,
+                                69,
+                                25,
+                                25,
+                                Lane("Top")
+                            )
+                        )
+                        clickableAreas.add(
+                            ClickableArea<Any?>(
+                                175,
+                                155,
+                                25,
+                                25,
+                                Lane("Mid")
+                            )
+                        )
+                        clickableAreas.add(
+                            ClickableArea<Any?>(
+                                182,
+                                236,
+                                25,
+                                25,
+                                Lane("Jg")
+                            )
+                        )
+                        clickableAreas.add(
+                            ClickableArea<Any?>(
+                                317,
+                                242,
+                                25,
+                                25,
+                                Lane("Sup")
+                            )
+                        )
+                        clickableAreas.add(
+                            ClickableArea<Any?>(
+                                281,
+                                256,
+                                25,
+                                25,
+                                Lane("Adc")
+                            )
+                        )
+                        clickableAreasImage.setClickableAreas(clickableAreas)
+
+
+                    }
+
+                    override fun onError(e: Exception?) {
+
+                    }
+                })
+                builder1.setNegativeButton(android.R.string.cancel, null)
+                builder1.setPositiveButton(android.R.string.ok) { _, _ ->
+                    view.lane_edit_text.setText(mapTitleLane)
+                }
+                builder1.show()
+
+            }
+        }
+
+
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val gameName = view.in_game_username_edit_text.text.toString()
             val lane = view.lane_edit_text.text.toString()
@@ -289,6 +409,7 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
         builder.setNegativeButton(android.R.string.cancel, null)
         builder.create().show()
+
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -296,6 +417,14 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
+    }
+
+
+    override fun onClickableAreaTouched(item: Lane?) {
+        if (item is Lane) {
+            mapTitleLane = item.lane
+            mapTitle!!.text = "Lane Selected: $mapTitleLane"
+        }
     }
 
 }
