@@ -7,10 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -25,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_team_page.view.*
 import org.w3c.dom.Text
 import android.content.Intent
 import android.net.Uri
+import android.widget.*
 
 
 private const val ARG_UID = "UID"
@@ -60,10 +57,13 @@ class TeamPageFragment(
     }
 
     private fun updateUI() {
-        if (context == null)
+        if (context == null) {
+            Log.w(TAG, "updateUI failed, context = null")
             return
-
+        }
+        clearScreen()
         for ((j, player) in team.withIndex()) {
+            Log.w(TAG, "updating ${team[j]}")
             var index = j + 1
 
             playerInfoRef.document(team[j]).get().addOnSuccessListener {
@@ -123,16 +123,61 @@ class TeamPageFragment(
                 }
             }
         }
-
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Log.d(TAG, context.toString())
-        teamRef.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-            team.clear()
-            team.addAll(documentSnapshot!!["users"] as ArrayList<String>)
-            updateUI()
+    private fun clearScreen() {
+        for (index in 1..5) {
+            var gameId: String = "team_page_name_$index"
+
+            rootView.findViewById<TextView>(
+                resources.getIdentifier(
+                    gameId,
+                    "id",
+                    activity?.packageName
+                )
+            ).text = "No User added"
+
+            var laneId: String = "team_page_lane_$index"
+            rootView.findViewById<TextView>(
+                resources.getIdentifier(
+                    laneId,
+                    "id",
+                    activity?.packageName
+                )
+            ).text = "No User added"
+
+            storageRef.child(".png").downloadUrl.addOnCompleteListener {
+                val url = it.result
+
+                for (jndex in 1..4) {
+                    var imgId: String = "team_page_image_view_${index}_" + (jndex)
+                    val img: ImageView = rootView.findViewById(
+                        resources.getIdentifier(
+                            imgId,
+                            "id",
+                            activity?.packageName
+                        )
+                    )
+                    Picasso.get().load(url).into(img)
+                }
+            }
+
+            val opGGLink = "team_page_link_text_view_$index"
+            val linkTextView = rootView.findViewById<TextView>(
+                resources.getIdentifier(
+                    opGGLink,
+                    "id",
+                    activity?.packageName
+                )
+            )
+
+            linkTextView.movementMethod
+            linkTextView.setOnClickListener {
+                val browserIntent = Intent(Intent.ACTION_VIEW)
+                browserIntent.data =
+                    Uri.parse("https://na.op.gg/summoner/userName=Unknown")
+                startActivity(browserIntent)
+            }
         }
     }
 
@@ -155,8 +200,27 @@ class TeamPageFragment(
         view.findViewById<Button>(R.id.add_teammate_btn).setOnClickListener {
             showAddDialog()
         }
-
+        attachSnapshotListener()
         return view
+    }
+
+    private fun attachSnapshotListener() {
+        teamRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, "Current data: ${snapshot.data}")
+
+                team.clear()
+                team.addAll(snapshot!!["users"] as ArrayList<String>)
+                updateUI()
+            } else {
+                Log.d(TAG, "Current data: null")
+            }
+        }
     }
 
 
