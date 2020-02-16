@@ -155,16 +155,16 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
         playerInfoDocRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
-                Log.w(TAG, "Listen failed.", e)
+//                Log.w(TAG, "Listen failed.", e)
                 return@addSnapshotListener
             }
 
             if (snapshot != null && snapshot.exists()) {
-                Log.d(TAG, "Current data: ${snapshot.data}")
+//                Log.d(TAG, "Current data: ${snapshot.data}")
 
                 updateUI(snapshot)
             } else {
-                Log.d(TAG, "Current data: null")
+//                Log.d(TAG, "Current data: null")
             }
         }
     }
@@ -248,11 +248,11 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
             val preferedChampion = (snapshot["preferedChampions"] ?: "") as ArrayList<String>
             teams = (snapshot["teams"] ?: "") as ArrayList<DocumentReference>
 
-            Log.d(Constants.TAG, "uid : ${uid}")
-            Log.d(Constants.TAG, "gamename : ${gameName}")
-            Log.d(Constants.TAG, "lane : ${lane}")
-            Log.d(Constants.TAG, "champions : ${preferedChampion.toString()}")
-            Log.d(Constants.TAG, "teams : ${teams}")
+//            Log.d(Constants.TAG, "uid : ${uid}")
+//            Log.d(Constants.TAG, "gamename : ${gameName}")
+//            Log.d(Constants.TAG, "lane : ${lane}")
+//            Log.d(Constants.TAG, "champions : ${preferedChampion.toString()}")
+//            Log.d(Constants.TAG, "teams : ${teams}")
 
             view.in_game_username_edit_text.setText(gameName)
             view.lane_edit_text.setText(lane)

@@ -58,12 +58,12 @@ class TeamPageFragment(
 
     private fun updateUI() {
         if (context == null || rootView == null) {
-            Log.w(TAG, "updateUI failed, context = null")
+//            Log.w(TAG, "updateUI failed, context = null")
             return
         }
         clearScreen()
         for ((j, player) in team.withIndex()) {
-            Log.w(TAG, "updating ${team[j]}")
+//            Log.w(TAG, "updating ${team[j]}")
             var index = j + 1
 
             playerInfoRef.document(team[j]).get().addOnSuccessListener {
@@ -208,18 +208,18 @@ class TeamPageFragment(
     private fun attachSnapshotListener() {
         teamRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
-                Log.w(TAG, "Listen failed.", e)
+//                Log.w(TAG, "Listen failed.", e)
                 return@addSnapshotListener
             }
 
             if (snapshot != null && snapshot.exists()) {
-                Log.d(TAG, "Current data: ${snapshot.data}")
+//                Log.d(TAG, "Current data: ${snapshot.data}")
 
                 team.clear()
                 team.addAll(snapshot!!["users"] as ArrayList<String>)
                 updateUI()
             } else {
-                Log.d(TAG, "Current data: null")
+//                Log.d(TAG, "Current data: null")
             }
         }
     }
@@ -237,14 +237,35 @@ class TeamPageFragment(
             val name = view.add_teammate_edit_text.text
             playerInfoRef.whereEqualTo("gamename", name.toString()).get()
                 .addOnSuccessListener {
+                    var addedUser: String? = null
                     for (snp in it) {
-                        Log.d(TAG, "Added")
-                        team!!.add(User.fromSnapshot(snp).uid)
+//                        Log.d(TAG, "Added")
+                        addedUser = User.fromSnapshot(snp).uid
+                        team!!.add(addedUser)
                         teamRef.update("users", team)
                     }
-//                    updateUI()
+
+                    playerInfoRef.document(addedUser!!).get()
+                        .addOnSuccessListener {
+                            var teamRefList = it["teams"] as ArrayList<DocumentReference>
+                            teamRefList.add(
+                                FirebaseFirestore
+                                    .getInstance()
+                                    .collection("teams")
+                                    .document(teamRef.id)
+                            )
+                            playerInfoRef.document(addedUser!!).set(
+                                User(
+                                    uid!!,
+                                    it["gamename"] as String,
+                                    it["lane"] as String,
+                                    it["preferedChampions"] as ArrayList<String>,
+                                    teamRefList
+                                )
+                            )
+                        }
                 }.addOnFailureListener {
-                    Log.d(TAG, "Cant find the player")
+//                    Log.d(TAG, "Cant find the player")
                 }
         }
 
