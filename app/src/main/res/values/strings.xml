@@ -31,5 +31,21 @@
         <item>Jax</item>
         <item>Garen</item>
         <item>Darius</item>
+        <item>Akali</item>
+        <item>Amumu</item>
+        <item>Caitlyn</item>
+        <item>ChoGath</item>
+        <item>Diana</item>
+        <item>Ekko</item>
+        <item>Evelynn</item>
+        <item>Jhin</item>
+        <item>Nocturne</item>
+        <item>Pantheon</item>
+        <item>Ryze</item>
+        <item>Senna</item>
+        <item>Teemo</item>
+        <item>Veigar</item>
+        <item>Yasuo</item>
+        <item>Vladimir</item>
     </string-array>
 </resources>
