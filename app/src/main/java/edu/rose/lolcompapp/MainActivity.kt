@@ -5,8 +5,6 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -14,7 +12,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_info_page.*
 
 class MainActivity : AppCompatActivity(),
     LoginFragment.OnLoginButtonPressedListener,
@@ -75,19 +72,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     fun switchToTeamFragment(team: Team, teamRef: DocumentReference) {
-//        val playerInfoRef = FirebaseFirestore
-//            .getInstance()
-//            .collection("users")
-//        var users_User: ArrayList<String>? = arrayListOf()
-//        for (user in team.users) {
-//            playerInfoRef.whereEqualTo("uid", user).get().addOnSuccessListener {
-//                for(snp in it){
-//                    users_User!!.add(User.fromSnapshot(snp).uid)
-//                }
-//            }
-//        }
-
-
         val fragment = TeamPageFragment.newInstance(
             auth.currentUser!!.uid!!,
             teamRef,
@@ -109,15 +93,11 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_home -> {
                 switchToInfoPage(auth.currentUser!!.uid, auth.currentUser!!.email!!)

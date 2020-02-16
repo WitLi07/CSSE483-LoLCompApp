@@ -1,12 +1,8 @@
 package edu.rose.lolcompapp
 
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import edu.rose.lolcompapp.Constants.TAG
-import edu.rose.lolcompapp.InfoPageFragmentAdapter
-import edu.rose.lolcompapp.Team
 import kotlinx.android.synthetic.main.info_page_fragment_cardview.view.*
 
 class InfoPageFragmentViewHolder : RecyclerView.ViewHolder {

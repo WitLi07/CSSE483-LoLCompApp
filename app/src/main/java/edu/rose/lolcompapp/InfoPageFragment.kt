@@ -2,11 +2,6 @@ package edu.rose.lolcompapp
 
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import android.widget.Spinner
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
-import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,7 +23,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import edu.rose.lolcompapp.Constants.TAG
-import io.karn.notify.Notify
 import kotlinx.android.parcel.RawValue
 import kotlinx.android.synthetic.main.change_info_model.view.*
 import kotlinx.android.synthetic.main.change_lane_info_map_model.view.*
@@ -162,15 +154,12 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
         playerInfoDocRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
-//                Log.w(TAG, "Listen failed.", e)
                 return@addSnapshotListener
             }
 
             if (snapshot != null && snapshot.exists()) {
-//                Log.d(TAG, "Current data: ${snapshot.data}")
                 updateUI(snapshot)
             } else {
-//                Log.d(TAG, "Current data: null")
             }
         }
     }

@@ -11,7 +11,6 @@ import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
-import edu.rose.lolcompapp.Constants.TAG
 import kotlinx.android.synthetic.main.add_comp_model.view.*
 
 class CompPageFragmentAdapter(var context: Context, var uid: String, var team: DocumentReference) :
@@ -46,8 +45,6 @@ class CompPageFragmentAdapter(var context: Context, var uid: String, var team: D
     }
 
     private fun processSnapshotChanges(querySnapshot: QuerySnapshot) {
-        // Snapshots has documents and documentChanges which are flagged by type,
-        // so we can handle C,U,D differently.
         for (documentChange in querySnapshot.documentChanges) {
             val comp = Comp.fromSnapshot(documentChange.document)
             when (documentChange.type) {
@@ -71,28 +68,9 @@ class CompPageFragmentAdapter(var context: Context, var uid: String, var team: D
             }
         }
 
-//        team.get().addOnSuccessListener {
-//            userIds = it["users"] as ArrayList<String>
-//            userRef.get().addOnSuccessListener {
-//                for(id in userIds) {
-//                    for(doc in it.documents) {
-//                        val temp = User.fromSnapshot(doc)
-//                        if(id.equals(temp.id)) {
-//                            users.add(temp)
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
 
     init {
-//        compRef.get().addOnSuccessListener {
-//            for (doc in it.documents) {
-//                val comp = Comp.fromSnapshot(doc)
-//                listOfComps.add(comp)
-//            }
-//        }
         team.get().addOnSuccessListener {
             userIds = it["users"] as ArrayList<String>
             userRef.get().addOnSuccessListener {
@@ -115,8 +93,6 @@ class CompPageFragmentAdapter(var context: Context, var uid: String, var team: D
                     }
                 }
             }
-
-
         }
 
     }
@@ -136,11 +112,6 @@ class CompPageFragmentAdapter(var context: Context, var uid: String, var team: D
         holder.bind(listOfComps[position])
     }
 
-    fun edit(position: Int, comp: Comp) {
-        listOfComps[position] = comp
-        val temp = compRef.document(listOfComps[position].uid)
-        temp.set(listOfComps[position])
-    }
 
     fun showAddDialog() {
         val builder = AlertDialog.Builder(context!!)

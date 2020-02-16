@@ -3,7 +3,6 @@ package edu.rose.lolcompapp
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 
 class SimpleItemTouchHelperCallback(
     var adapter: AdapterInterface,

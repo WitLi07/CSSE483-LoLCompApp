@@ -1,31 +1,23 @@
 package edu.rose.lolcompapp
 
-import android.content.Context
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import edu.rose.lolcompapp.Constants.TAG
 import kotlinx.android.synthetic.main.add_teammate_model.view.*
-import kotlinx.android.synthetic.main.fragment_info_page.*
-import kotlinx.android.synthetic.main.fragment_team_page.*
-import kotlinx.android.synthetic.main.fragment_team_page.view.*
-import org.w3c.dom.Text
 import android.content.Intent
 import android.net.Uri
 import android.widget.*
 
 
 private const val ARG_UID = "UID"
-private const val ARG_TEAM = "TEAM"
 
 class TeamPageFragment(
     var uid: String,
@@ -58,12 +50,10 @@ class TeamPageFragment(
 
     private fun updateUI() {
         if (context == null || rootView == null) {
-//            Log.w(TAG, "updateUI failed, context = null")
             return
         }
         clearScreen()
         for ((j, player) in team.withIndex()) {
-//            Log.w(TAG, "updating ${team[j]}")
             var index = j + 1
 
             playerInfoRef.document(team[j]).get().addOnSuccessListener {
@@ -185,7 +175,6 @@ class TeamPageFragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_team_page, container, false)
         rootView = view
         view.findViewById<Button>(R.id.view_comp_btn).setOnClickListener {
@@ -217,18 +206,15 @@ class TeamPageFragment(
     private fun attachSnapshotListener() {
         teamRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
-//                Log.w(TAG, "Listen failed.", e)
                 return@addSnapshotListener
             }
 
             if (snapshot != null && snapshot.exists()) {
-//                Log.d(TAG, "Current data: ${snapshot.data}")
 
                 team.clear()
                 team.addAll(snapshot!!["users"] as ArrayList<String>)
                 updateUI()
             } else {
-//                Log.d(TAG, "Current data: null")
             }
         }
     }
@@ -275,7 +261,6 @@ class TeamPageFragment(
                             )
                         }
                 }.addOnFailureListener {
-                    //                    Log.d(TAG, "Cant find the player")
                 }
         }
 

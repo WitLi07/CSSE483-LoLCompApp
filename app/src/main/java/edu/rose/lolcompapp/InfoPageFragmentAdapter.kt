@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 import edu.rose.lolcompapp.Constants.TAG
 import io.karn.notify.Notify
-import kotlinx.android.parcel.RawValue
 
 class InfoPageFragmentAdapter(
     var context: Context,
@@ -59,7 +58,6 @@ class InfoPageFragmentAdapter(
                     }
                 }
             } else {
-//                Log.d(TAG, "$source data: null")
             }
         }
     }
