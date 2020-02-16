@@ -235,15 +235,16 @@ class TeamPageFragment(
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
 
             val name = view.add_teammate_edit_text.text
+            Log.d(TAG, "$name")
             playerInfoRef.whereEqualTo("gamename", name.toString()).get()
                 .addOnSuccessListener {
                     var addedUser: String? = null
                     for (snp in it) {
-//                        Log.d(TAG, "Added")
                         addedUser = User.fromSnapshot(snp).uid
                         team!!.add(addedUser)
                         teamRef.update("users", team)
                     }
+                    Log.d(TAG, "$addedUser")
 
                     playerInfoRef.document(addedUser!!).get()
                         .addOnSuccessListener {
@@ -256,7 +257,7 @@ class TeamPageFragment(
                             )
                             playerInfoRef.document(addedUser!!).set(
                                 User(
-                                    uid!!,
+                                    it["uid"] as String,
                                     it["gamename"] as String,
                                     it["lane"] as String,
                                     it["preferedChampions"] as ArrayList<String>,
@@ -265,7 +266,7 @@ class TeamPageFragment(
                             )
                         }
                 }.addOnFailureListener {
-//                    Log.d(TAG, "Cant find the player")
+                    //                    Log.d(TAG, "Cant find the player")
                 }
         }
 

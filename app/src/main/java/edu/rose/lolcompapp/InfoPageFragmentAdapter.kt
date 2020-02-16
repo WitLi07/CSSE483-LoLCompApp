@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 import edu.rose.lolcompapp.Constants.TAG
+import kotlinx.android.parcel.RawValue
 
 class InfoPageFragmentAdapter(
     var context: Context,
@@ -16,13 +17,16 @@ class InfoPageFragmentAdapter(
 
     private var listOfTeams: ArrayList<Team> = arrayListOf()
     private lateinit var listOfTeamsRef: ArrayList<DocumentReference>
-    private val teamRef = FirebaseFirestore
+    private val userRef = FirebaseFirestore
         .getInstance()
         .collection("users")
         .document(uid)
+    private val teamRef = FirebaseFirestore
+        .getInstance()
+        .collection("teams")
 
     init {
-        teamRef.addSnapshotListener { snapshot, e ->
+        userRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
                 Log.w(TAG, "Listen failed.", e)
                 return@addSnapshotListener
@@ -34,7 +38,7 @@ class InfoPageFragmentAdapter(
                 "Server"
 
             if (snapshot != null && snapshot.exists()) {
-                Log.d(TAG, "$source data: ${snapshot.data}")
+//                Log.d(TAG, "$source data: ${snapshot.data}")
                 if (snapshot["teams"] != null) {
                     listOfTeamsRef = snapshot["teams"] as ArrayList<DocumentReference>
                     listOfTeams.clear()
@@ -46,7 +50,7 @@ class InfoPageFragmentAdapter(
                     }
                 }
             } else {
-                Log.d(TAG, "$source data: null")
+//                Log.d(TAG, "$source data: null")
             }
         }
     }
@@ -58,11 +62,11 @@ class InfoPageFragmentAdapter(
     }
 
     fun remove(adapterPosition: Int) {
-        teamRef.get().addOnSuccessListener {
+        userRef.get().addOnSuccessListener {
             val teamRefs = it["teams"] as ArrayList<DocumentReference>
-            teamRefs.removeAt(adapterPosition)
+            val removedTeam = teamRefs.removeAt(adapterPosition)
 
-            teamRef.set(
+            userRef.set(
                 User(
                     uid!!,
                     it["gamename"] as String,
@@ -71,6 +75,24 @@ class InfoPageFragmentAdapter(
                     teamRefs
                 )
             )
+
+            removedTeam.get().addOnSuccessListener {
+                val userRemovedList = (it["users"] as ArrayList<String>)
+                userRemovedList.remove(uid)
+                if (userRemovedList.size == 0)
+                    removedTeam.delete()
+                else {
+                    removedTeam.set(
+                        Team(
+                            it["uid"] as String,
+                            userRemovedList,
+                            removedTeam
+                        )
+                    )
+                }
+
+            }
+
         }
     }
 

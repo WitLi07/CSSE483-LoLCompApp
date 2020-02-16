@@ -97,8 +97,10 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
         val adapter = InfoPageFragmentAdapter(context!!, uid!!, listener!!)
         RV.layoutManager = LinearLayoutManager(context)
         RV.setHasFixedSize(true)
+
         val callback: ItemTouchHelper.Callback = SimpleItemTouchHelperCallback(adapter, rootView!!)
         val touchHelper = ItemTouchHelper(callback)
+
         touchHelper.attachToRecyclerView(RV)
         RV.adapter = adapter
 
@@ -169,20 +171,6 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnTeamSelectedListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
     private fun updateUI(snapshot: DocumentSnapshot) {
         if (rootView!! == null)
             return
@@ -227,8 +215,7 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
         }
     }
 
-
-    fun showEditDialog() {
+    private fun showEditDialog() {
         val playerInfoDocRef = playerInfoRef.document(uid!!)
 
         val builder = AlertDialog.Builder(context!!)
@@ -247,12 +234,6 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
             val lane = (snapshot["lane"] ?: "") as String
             val preferedChampion = (snapshot["preferedChampions"] ?: "") as ArrayList<String>
             teams = (snapshot["teams"] ?: "") as ArrayList<DocumentReference>
-
-//            Log.d(Constants.TAG, "uid : ${uid}")
-//            Log.d(Constants.TAG, "gamename : ${gameName}")
-//            Log.d(Constants.TAG, "lane : ${lane}")
-//            Log.d(Constants.TAG, "champions : ${preferedChampion.toString()}")
-//            Log.d(Constants.TAG, "teams : ${teams}")
 
             view.in_game_username_edit_text.setText(gameName)
             view.lane_edit_text.setText(lane)
@@ -396,13 +377,26 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnTeamSelectedListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
     override fun onNothingSelected(parent: AdapterView<*>?) {
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
     }
-
 
     override fun onClickableAreaTouched(item: Lane?) {
         if (item is Lane) {
