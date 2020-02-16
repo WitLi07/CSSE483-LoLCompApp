@@ -16,9 +16,6 @@ class InfoPageFragmentViewHolder : RecyclerView.ViewHolder {
         itemView.setOnClickListener {
             adapter.selectTeamAt(adapterPosition)
         }
-        itemView.setOnClickListener {
-            adapter.selectTeamAt(adapterPosition)
-        }
     }
 
     fun bind(team: Team) {

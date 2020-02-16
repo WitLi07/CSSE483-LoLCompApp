@@ -22,18 +22,32 @@ class InfoPageFragmentAdapter(
         .document(uid)
 
     init {
-        teamRef.get().addOnSuccessListener {
-            if (it["teams"] != null) {
-                listOfTeamsRef = it["teams"] as ArrayList<DocumentReference>
+        teamRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
 
-                for (teamRef in listOfTeamsRef) {
-                    teamRef.get().addOnSuccessListener {
-                        listOfTeams.add(Team.fromSnapshot(it))
-                        notifyItemInserted(listOfTeams.size)
+            val source = if (snapshot != null && snapshot.metadata.hasPendingWrites())
+                "Local"
+            else
+                "Server"
+
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, "$source data: ${snapshot.data}")
+                if (snapshot["teams"] != null) {
+                    listOfTeamsRef = snapshot["teams"] as ArrayList<DocumentReference>
+                    listOfTeams.clear()
+                    for (teamRef in listOfTeamsRef) {
+                        teamRef.get().addOnSuccessListener {
+                            listOfTeams.add(Team.fromSnapshot(it))
+                            notifyItemInserted(listOfTeams.size)
+                        }
                     }
                 }
+            } else {
+                Log.d(TAG, "$source data: null")
             }
-//            notifyDataSetChanged()
         }
     }
 
@@ -41,6 +55,23 @@ class InfoPageFragmentAdapter(
         var team = listOfTeams[adapterPosition]
         var teamRef = listOfTeamsRef[adapterPosition]
         listener?.onTeamSelected(team, teamRef)
+    }
+
+    fun remove(adapterPosition: Int) {
+        teamRef.get().addOnSuccessListener {
+            val teamRefs = it["teams"] as ArrayList<DocumentReference>
+            teamRefs.removeAt(adapterPosition)
+
+            teamRef.set(
+                User(
+                    uid!!,
+                    it["gamename"] as String,
+                    it["lane"] as String,
+                    it["preferedChampions"] as ArrayList<String>,
+                    teamRefs
+                )
+            )
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InfoPageFragmentViewHolder {

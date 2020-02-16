@@ -57,7 +57,7 @@ class TeamPageFragment(
     }
 
     private fun updateUI() {
-        if (context == null) {
+        if (context == null || rootView == null) {
             Log.w(TAG, "updateUI failed, context = null")
             return
         }

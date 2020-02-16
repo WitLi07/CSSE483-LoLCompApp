@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentChange
@@ -77,6 +78,9 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
         val adapter = InfoPageFragmentAdapter(context!!, uid!!, listener!!)
         RV.layoutManager = LinearLayoutManager(context)
         RV.setHasFixedSize(true)
+        val callback: ItemTouchHelper.Callback = SimpleItemTouchHelperCallback(adapter, rootView!!)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(RV)
         RV.adapter = adapter
 
 
