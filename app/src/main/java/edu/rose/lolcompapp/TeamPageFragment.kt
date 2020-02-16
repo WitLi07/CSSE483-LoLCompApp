@@ -19,9 +19,13 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import edu.rose.lolcompapp.Constants.TAG
 import kotlinx.android.synthetic.main.add_teammate_model.view.*
+import kotlinx.android.synthetic.main.fragment_info_page.*
 import kotlinx.android.synthetic.main.fragment_team_page.*
 import kotlinx.android.synthetic.main.fragment_team_page.view.*
 import org.w3c.dom.Text
+import android.content.Intent
+import android.net.Uri
+
 
 private const val ARG_UID = "UID"
 private const val ARG_TEAM = "TEAM"
@@ -43,9 +47,11 @@ class TeamPageFragment(
 
     companion object {
         @JvmStatic
-        fun newInstance(uid: String,
-                        teamRef: DocumentReference,
-                        team: ArrayList<String>) =
+        fun newInstance(
+            uid: String,
+            teamRef: DocumentReference,
+            team: ArrayList<String>
+        ) =
             TeamPageFragment(uid, teamRef, team).apply {
                 arguments = Bundle().apply {
                     putString(ARG_UID, uid)
@@ -54,18 +60,15 @@ class TeamPageFragment(
     }
 
     private fun updateUI() {
-        if(context == null)
+        if (context == null)
             return
 
         for ((j, player) in team.withIndex()) {
-//            Log.d(TAG, "Running ${team}, $j")
-//            Log.d(TAG, "Running ${team[j]}")
             var index = j + 1
 
             playerInfoRef.document(team[j]).get().addOnSuccessListener {
                 var gameId: String = "team_page_name_$index"
-                Log.d(TAG, gameId)
-                Log.d(TAG, rootView.toString())
+
                 rootView.findViewById<TextView>(
                     resources.getIdentifier(
                         gameId,
@@ -100,6 +103,24 @@ class TeamPageFragment(
                         Picasso.get().load(url).into(img)
                     }
                 }
+
+                val opGGLink = "team_page_link_text_view_$index"
+                val linkTextView = rootView.findViewById<TextView>(
+                    resources.getIdentifier(
+                        opGGLink,
+                        "id",
+                        activity?.packageName
+                    )
+                )
+
+                val that = it
+                linkTextView.movementMethod
+                linkTextView.setOnClickListener {
+                    val browserIntent = Intent(Intent.ACTION_VIEW)
+                    browserIntent.data =
+                        Uri.parse("https://na.op.gg/summoner/userName=${that["gamename"] as String}")
+                    startActivity(browserIntent)
+                }
             }
         }
 
@@ -108,7 +129,7 @@ class TeamPageFragment(
     override fun onAttach(context: Context) {
         super.onAttach(context)
         Log.d(TAG, context.toString())
-        teamRef.addSnapshotListener{ documentSnapshot, firebaseFirestoreException ->
+        teamRef.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             team.clear()
             team.addAll(documentSnapshot!!["users"] as ArrayList<String>)
             updateUI()
