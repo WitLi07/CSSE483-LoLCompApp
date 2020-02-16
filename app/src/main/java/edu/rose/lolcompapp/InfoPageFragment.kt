@@ -30,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import edu.rose.lolcompapp.Constants.TAG
+import kotlinx.android.parcel.RawValue
 import kotlinx.android.synthetic.main.change_info_model.view.*
 import kotlinx.android.synthetic.main.change_lane_info_map_model.view.*
 import uk.co.senab.photoview.PhotoViewAttacher
@@ -238,14 +239,14 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
         val changeLaneButton = view.findViewById<Button>(R.id.lane_edit_btn)
 
-
+        var teams: ArrayList<@RawValue DocumentReference>? = null
         playerInfoDocRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
 
 
             val gameName = (snapshot["gamename"] ?: "") as String
             val lane = (snapshot["lane"] ?: "") as String
             val preferedChampion = (snapshot["preferedChampions"] ?: "") as ArrayList<String>
-            val teams = (snapshot["teams"] ?: "") as ArrayList<DocumentReference>
+            teams = (snapshot["teams"] ?: "") as ArrayList<DocumentReference>
 
             Log.d(Constants.TAG, "uid : ${uid}")
             Log.d(Constants.TAG, "gamename : ${gameName}")
@@ -304,23 +305,6 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
                 mapTitle = mapView.change_lane_title
                 Picasso.get().load(url).into(image, object : Callback {
                     override fun onSuccess() {
-//                        image.background = getDrawable(context!!, R.drawable.lolmap)
-//                        val bitmap: Bitmap = Bitmap.createBitmap(350, 350, Bitmap.Config.ARGB_8888)
-//                        val canvas = Canvas(bitmap)
-//
-//                        val paint = Paint()
-//                        paint.setColor(Color.BLACK);
-//                        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-//                        paint.setStrokeWidth(10f);
-//                        val leftx = 182f;
-//                        val topy = 157f;
-//                        val rightx = 207f;
-//                        val bottomy = 182f;
-//                        canvas?.drawRect(leftx, topy, rightx, bottomy, paint);
-//
-//
-//                        image.setImageBitmap(bitmap)
-
 
                         val clickableAreasImage =
                             ClickableAreasImage(PhotoViewAttacher(image), that)
@@ -400,7 +384,7 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
                 arrayListOf<String>(prefChamp1, prefChamp2, prefChamp3, prefChamp4)
 
 
-            playerInfoDocRef.set(User(uid!!, gameName, lane, prefChampsArray))
+            playerInfoDocRef.set(User(uid!!, gameName, lane, prefChampsArray, teams!!))
 
             rootView!!.findViewById<TextView>(R.id.gamename_value).text = gameName
             rootView!!.findViewById<TextView>(R.id.lane_value).text = lane
