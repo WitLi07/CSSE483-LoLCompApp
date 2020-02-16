@@ -65,7 +65,7 @@
         android:layout_height="match_parent"
         android:id="@+id/comp_recycler"
         android:layout_below="@+id/comp_linear"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/add_comp_btn"/>
 

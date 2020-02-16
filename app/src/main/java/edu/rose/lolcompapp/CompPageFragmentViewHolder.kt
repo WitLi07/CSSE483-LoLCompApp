@@ -2,14 +2,14 @@ package edu.rose.lolcompapp
 
 import android.content.Context
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.widget.*
 import android.widget.Spinner
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.comp_cardview.view.*
 import kotlinx.android.synthetic.main.info_page_fragment_cardview.view.*
 import org.w3c.dom.Text
@@ -17,21 +17,14 @@ import org.w3c.dom.Text
 class CompPageFragmentViewHolder(itemView: View, adapter: CompPageFragmentAdapter) : RecyclerView.ViewHolder(itemView) {
 
     val cardTitle: TextView = itemView.comp_name
-//    lateinit var adapter: CompPageFragmentAdapter
-//    lateinit var context: Context
-//    private var users: ArrayList<User> = arrayListOf()
-    val top: TextView = itemView.comp_top
-    val mid:TextView = itemView.comp_mid
-    val sup:TextView = itemView.comp_sup
-    val adc:TextView = itemView.comp_adc
-    val jg:TextView = itemView.comp_jg
-
-
-//    constructor(itemView: View, adapter: CompPageFragmentAdapter, context: Context, users: ArrayList<User>) : super(itemView) {
-//        this.context = context
-//        this.adapter = adapter
-//        this.users = users
-//    }
+    private val storageRef = FirebaseStorage.getInstance()
+        .reference
+        .child("champImages")
+    val top: ImageView = itemView.comp_top
+    val mid:ImageView = itemView.comp_mid
+    val sup:ImageView = itemView.comp_sup
+    val adc:ImageView = itemView.comp_adc
+    val jg:ImageView = itemView.comp_jg
 
     init {
         itemView.setOnLongClickListener {
@@ -42,11 +35,30 @@ class CompPageFragmentViewHolder(itemView: View, adapter: CompPageFragmentAdapte
 
     fun bind(comp : Comp) {
         cardTitle.text = comp.name
-        top.text = comp.top
-        mid.text = comp.mid
-        sup.text = comp.sup
-        adc.text = comp.ad
-        jg.text = comp.jungle
+
+        storageRef.child(comp.top + ".png").downloadUrl.addOnCompleteListener {
+            val url = it.result
+            Picasso.get().load(url).into(top)
+        }
+
+        storageRef.child(comp.mid + ".png").downloadUrl.addOnCompleteListener {
+            val url = it.result
+            Picasso.get().load(url).into(mid)
+        }
+
+        storageRef.child(comp.sup + ".png").downloadUrl.addOnCompleteListener {
+            val url = it.result
+            Picasso.get().load(url).into(sup)
+        }
+
+        storageRef.child(comp.ad + ".png").downloadUrl.addOnCompleteListener {
+            val url = it.result
+            Picasso.get().load(url).into(adc)
+        }
+        storageRef.child(comp.jungle + ".png").downloadUrl.addOnCompleteListener {
+            val url = it.result
+            Picasso.get().load(url).into(jg)
+        }
 
 //        for(i in 1..5) {
 //            for((ind, name) in users.withIndex()) {

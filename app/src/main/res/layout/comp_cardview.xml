@@ -9,52 +9,54 @@
     <LinearLayout
         android:id="@+id/comp_cardview_linear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/comp_name"
             style="@style/textview_style"
-            android:layout_margin="10dp"
             android:text="@string/comp_page_comp_name"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            />
 
-        <TextView
+        <ImageView
             android:id="@+id/comp_top"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:text="TOP"
-            />
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/question_mark_icon" />
 
-        <TextView
+        <ImageView
             android:id="@+id/comp_mid"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:text="MID"/>
+            android:layout_margin="5dp"
+            android:src="@drawable/question_mark_icon"/>
 
-        <TextView
+        <ImageView
             android:id="@+id/comp_sup"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:text="SUP"
+            android:layout_margin="5dp"
+            android:src="@drawable/question_mark_icon"
             />
 
-        <TextView
+        <ImageView
             android:id="@+id/comp_adc"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:text="ADC"/>
+            android:layout_margin="5dp"
+            android:src="@drawable/question_mark_icon"/>
 
-        <TextView
+        <ImageView
             android:id="@+id/comp_jg"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:text="JG"/>
+            android:layout_margin="5dp"
+            android:src="@drawable/question_mark_icon"/>
 
 
     </LinearLayout>
