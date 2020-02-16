@@ -161,6 +161,8 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
     }
 
     private fun updateUI(snapshot: DocumentSnapshot) {
+        if (rootView!! == null)
+            return
         clearScreen()
         val gameName = (snapshot["gamename"] ?: "") as String
         val lane = (snapshot["lane"] ?: "") as String

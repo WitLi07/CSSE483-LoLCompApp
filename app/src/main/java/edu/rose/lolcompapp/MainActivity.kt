@@ -119,7 +119,10 @@ class MainActivity : AppCompatActivity(),
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_home -> true
+            R.id.action_home -> {
+                switchToInfoPage(auth.currentUser!!.uid)
+                true
+            }
             R.id.action_logout -> {
                 auth.signOut()
                 switchToLoginFragment()
