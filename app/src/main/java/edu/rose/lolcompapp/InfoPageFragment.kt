@@ -30,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import edu.rose.lolcompapp.Constants.TAG
+import io.karn.notify.Notify
 import kotlinx.android.parcel.RawValue
 import kotlinx.android.synthetic.main.change_info_model.view.*
 import kotlinx.android.synthetic.main.change_lane_info_map_model.view.*
@@ -163,7 +164,6 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
             if (snapshot != null && snapshot.exists()) {
 //                Log.d(TAG, "Current data: ${snapshot.data}")
-
                 updateUI(snapshot)
             } else {
 //                Log.d(TAG, "Current data: null")

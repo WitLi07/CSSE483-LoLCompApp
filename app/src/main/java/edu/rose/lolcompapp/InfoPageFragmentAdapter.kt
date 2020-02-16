@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 import edu.rose.lolcompapp.Constants.TAG
+import io.karn.notify.Notify
 import kotlinx.android.parcel.RawValue
 
 class InfoPageFragmentAdapter(
@@ -24,8 +25,12 @@ class InfoPageFragmentAdapter(
     private val teamRef = FirebaseFirestore
         .getInstance()
         .collection("teams")
+    private var teamLength: Int = 0
 
     init {
+        userRef.get().addOnSuccessListener {
+            teamLength = (it["teams"] as ArrayList<DocumentReference>).size
+        }
         userRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
                 Log.w(TAG, "Listen failed.", e)
@@ -41,6 +46,10 @@ class InfoPageFragmentAdapter(
 //                Log.d(TAG, "$source data: ${snapshot.data}")
                 if (snapshot["teams"] != null) {
                     listOfTeamsRef = snapshot["teams"] as ArrayList<DocumentReference>
+                    if (teamLength != listOfTeamsRef.size) {
+                        teamLength = listOfTeamsRef.size
+                        notifyForTeamAdded()
+                    }
                     listOfTeams.clear()
                     for (teamRef in listOfTeamsRef) {
                         teamRef.get().addOnSuccessListener {
@@ -53,6 +62,17 @@ class InfoPageFragmentAdapter(
 //                Log.d(TAG, "$source data: null")
             }
         }
+    }
+
+    private fun notifyForTeamAdded() {
+        Notify
+            .with(context!!)
+            .content {
+                // this: Payload.Content.Default
+                title = "Your team page has changed"
+                text = "Check you info page"
+            }
+            .show()
     }
 
     fun selectTeamAt(adapterPosition: Int) {
