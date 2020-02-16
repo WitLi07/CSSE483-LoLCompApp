@@ -27,37 +27,37 @@
             style="@style/textview_style"
             android:text="Comp-Name"
             android:textStyle="bold"
-            android:layout_marginLeft="20dp"/>
+            android:layout_margin="10dp"/>
 
         <TextView
             style="@style/textview_style"
             android:text="Top"
             android:textStyle="bold"
-            android:layout_marginLeft="20dp"/>
+            android:layout_margin="10dp"/>
 
         <TextView
             style="@style/textview_style"
             android:text="Mid"
             android:textStyle="bold"
-            android:layout_marginLeft="20dp"/>
+            android:layout_margin="10dp"/>
 
         <TextView
             style="@style/textview_style"
             android:text="Sup"
             android:textStyle="bold"
-            android:layout_marginLeft="20dp"/>
+            android:layout_margin="10dp"/>
 
         <TextView
             style="@style/textview_style"
             android:text="Ad"
             android:textStyle="bold"
-            android:layout_marginLeft="20dp"/>
+            android:layout_margin="10dp"/>
 
         <TextView
             style="@style/textview_style"
             android:text="Jungle"
             android:textStyle="bold"
-            android:layout_marginLeft="20dp"/>
+            android:layout_margin="10dp"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

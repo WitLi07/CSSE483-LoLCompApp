@@ -15,40 +15,46 @@
         <TextView
             android:id="@+id/comp_name"
             style="@style/textview_style"
-            android:layout_marginLeft="10dp"
+            android:layout_margin="10dp"
             android:text="@string/comp_page_comp_name"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"/>
+            android:textStyle="bold"/>
 
-        <Spinner
-            android:id="@+id/spinner_1"
+        <TextView
+            android:id="@+id/comp_top"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"/>
+            android:layout_margin="10dp"
+            android:text="TOP"
+            />
 
-        <Spinner
-            android:id="@+id/spinner_2"
+        <TextView
+            android:id="@+id/comp_mid"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"/>
+            android:layout_margin="10dp"
+            android:text="MID"/>
 
-        <Spinner
-            android:id="@+id/spinner_3"
+        <TextView
+            android:id="@+id/comp_sup"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"/>
+            android:layout_margin="10dp"
+            android:text="SUP"
+            />
 
-        <Spinner
-            android:id="@+id/spinner_4"
+        <TextView
+            android:id="@+id/comp_adc"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"/>
+            android:layout_margin="10dp"
+            android:text="ADC"/>
 
-        <Spinner
-            android:id="@+id/spinner_5"
+        <TextView
+            android:id="@+id/comp_jg"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"/>
+            android:layout_margin="10dp"
+            android:text="JG"/>
 
 
     </LinearLayout>

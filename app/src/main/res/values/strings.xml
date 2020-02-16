@@ -10,7 +10,6 @@
     <string name="teams">Teams:</string>
     <string name="koko">koko</string>
     <string name="koko6015">koko6015</string>
-    <string name="top">Top</string>
     <string name="change_info">Change Info</string>
     <string name="in_game_username">In game username</string>
     <string name="preferred_champion">Preferred Champion</string>
@@ -21,6 +20,11 @@
     <string name="comp_name">Comp Name:</string>
     <string name="comp_page_comp_name">Name</string>
     <string name="Login_Text">Login</string>
+    <string name="top">Top</string>
+    <string name="mid">Mid</string>
+    <string name="jg">JG</string>
+    <string name="sup">Sup</string>
+    <string name="adc">ADC</string>
 
     <string-array name="champion_name">
         <item>Ornn</item>

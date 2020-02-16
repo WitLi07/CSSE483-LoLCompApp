@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 
 class SimpleItemTouchHelperCallback(
-    var adapter: InfoPageFragmentAdapter,
+    var adapter: AdapterInterface,
     var view: View
 ): ItemTouchHelper.Callback() {
 

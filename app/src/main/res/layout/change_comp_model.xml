@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/comp_lane_1"
+            android:textSize="20sp"
+            android:text="@string/top"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="2"/>
+
+        <Spinner
+            android:id="@+id/comp_lane_spinner_1"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:entries="@array/champion_name"
+            android:layout_weight="2"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/comp_lane_2"
+            android:textSize="20sp"
+            android:text="@string/mid"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="2"/>
+
+        <Spinner
+            android:id="@+id/comp_lane_spinner_2"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:entries="@array/champion_name"
+            android:layout_weight="2"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/comp_lane_3"
+            android:textSize="20sp"
+            android:text="SUP"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="2"/>
+
+        <Spinner
+            android:id="@+id/comp_lane_spinner_3"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:entries="@array/champion_name"
+
+            android:layout_weight="2"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/comp_lane_4"
+            android:textSize="20sp"
+            android:text="@string/adc"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="2"/>
+
+        <Spinner
+            android:id="@+id/comp_lane_spinner_4"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:entries="@array/champion_name"
+
+            android:layout_weight="2"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/comp_lane_5"
+            android:textSize="20sp"
+            android:text="@string/jg"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="2"/>
+
+        <Spinner
+            android:id="@+id/comp_lane_spinner_5"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:entries="@array/champion_name"
+
+            android:layout_weight="2"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

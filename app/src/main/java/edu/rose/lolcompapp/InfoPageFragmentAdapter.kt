@@ -14,7 +14,7 @@ class InfoPageFragmentAdapter(
     var context: Context,
     var uid: String,
     var listener: InfoPageFragment.OnTeamSelectedListener?
-) : RecyclerView.Adapter<InfoPageFragmentViewHolder>() {
+) : RecyclerView.Adapter<InfoPageFragmentViewHolder>(), AdapterInterface {
 
     private var listOfTeams: ArrayList<Team> = arrayListOf()
     private lateinit var listOfTeamsRef: ArrayList<DocumentReference>
@@ -81,7 +81,7 @@ class InfoPageFragmentAdapter(
         listener?.onTeamSelected(team, teamRef)
     }
 
-    fun remove(adapterPosition: Int) {
+    override fun remove(adapterPosition: Int) {
         userRef.get().addOnSuccessListener {
             val teamRefs = it["teams"] as ArrayList<DocumentReference>
             val removedTeam = teamRefs.removeAt(adapterPosition)

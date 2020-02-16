@@ -190,11 +190,20 @@ class TeamPageFragment(
         rootView = view
         view.findViewById<Button>(R.id.view_comp_btn).setOnClickListener {
 
-            val ft = activity?.supportFragmentManager?.beginTransaction()
-            val fragment = CompPageFragment(uid, teamRef, team)
-            ft?.replace(R.id.fragment_container, fragment)
-            ft?.addToBackStack("team")
-            ft?.commit()
+            teamRef.get().addOnSuccessListener { snapshot:DocumentSnapshot ->
+                val teammates = snapshot["users"] as ArrayList<User>
+                if(teammates.size == 5) {
+                    val ft = activity?.supportFragmentManager?.beginTransaction()
+                    val fragment = CompPageFragment(uid, teamRef, team)
+                    ft?.replace(R.id.fragment_container, fragment)
+                    ft?.addToBackStack("team")
+                    ft?.commit()
+                } else {
+                    Toast.makeText(context, "Currently, there are no enough players to form a comp", Toast.LENGTH_LONG).show()
+                }
+            }
+
+
         }
 
         view.findViewById<Button>(R.id.add_teammate_btn).setOnClickListener {
