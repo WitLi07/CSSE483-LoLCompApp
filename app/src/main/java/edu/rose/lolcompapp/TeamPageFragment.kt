@@ -118,6 +118,7 @@ class TeamPageFragment(
                 linkTextView.setOnClickListener {
                     val browserIntent = Intent(Intent.ACTION_VIEW)
                     browserIntent.data =
+
                         Uri.parse("https://na.op.gg/summoner/userName=${that["gamename"] as String}")
                     startActivity(browserIntent)
                 }
