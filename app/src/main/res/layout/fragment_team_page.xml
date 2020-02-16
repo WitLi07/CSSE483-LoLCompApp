@@ -116,6 +116,7 @@
             android:linksClickable="false"
             android:selectAllOnFocus="false"
             android:text="Link"
+
             android:textColor="@color/buttonTextColor" />
 
         <!--    2nd Row    -->
