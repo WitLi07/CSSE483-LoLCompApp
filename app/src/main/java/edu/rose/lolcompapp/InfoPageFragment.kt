@@ -133,8 +133,6 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
             showEditDialog()
         }
 
-        attachSnapshotListener()
-
         val RV = rootView!!.findViewById(R.id.info_recycler) as RecyclerView
         val adapter = InfoPageFragmentAdapter(context!!, uid!!, listener!!)
         RV.layoutManager = LinearLayoutManager(context)
@@ -145,7 +143,7 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
         touchHelper.attachToRecyclerView(RV)
         RV.adapter = adapter
-
+        attachSnapshotListener()
         return rootView
     }
 
@@ -166,6 +164,8 @@ class InfoPageFragment(context: Context) : Fragment(), AdapterView.OnItemSelecte
 
     private fun updateUI(snapshot: DocumentSnapshot) {
         if (rootView!! == null)
+            return
+        if (context == null)
             return
         clearScreen()
         val gameName = (snapshot["gamename"] ?: "") as String
